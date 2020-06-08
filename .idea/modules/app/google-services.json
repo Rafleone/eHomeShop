@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "1020234136386",
+    "firebase_url": "https://ehomeshop-fae88.firebaseio.com",
+    "project_id": "ehomeshop-fae88",
+    "storage_bucket": "ehomeshop-fae88.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1020234136386:android:ee27ee7b0007e9fdfb66db",
+        "android_client_info": {
+          "package_name": "ehomeshop.com"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1020234136386-v8v4gcjooha1kroh6gt22a64eauavsrb.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "ehomeshop.com",
+            "certificate_hash": "06a6731dbb76baf5fe3d60dbb23f79f4ce26d101"
+          }
+        },
+        {
+          "client_id": "1020234136386-ahv4p0n7pilbckk5qe92ova8kta5mmj4.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDMGUPMCw0OG621JqWU1nExyfKkw8Q7224"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1020234136386-ahv4p0n7pilbckk5qe92ova8kta5mmj4.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
