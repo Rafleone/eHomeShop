@@ -29,6 +29,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.squareup.picasso.Picasso;
+
 import java.util.List;
 import java.util.Locale;
 
@@ -41,38 +43,41 @@ public class RegisterUserActivity extends AppCompatActivity implements LocationL
     private Button registerBtn;
     private TextView registerSellerTv;
 
-    //permission constants
+    // permission constants
     private static final int LOCATION_REQUEST_CODE = 100;
     private static final int CAMERA_REQUEST_CODE = 200;
     private static final int STORAGE_REQUEST_CODE = 300;
-    //image pick constants
+    // image pick constants
     private static final int IMAGE_PICK_GALLERY_CODE = 400;
     private static final int IMAGE_PICK_CAMERA_CODE = 500;
-    //permission arrays
+
+    // permission arrays
     private String[] locationPermissions;
     private String[] cameraPermissions;
     private String[] storagePermissions;
-    //image picked Uri
+
+    // image picked Uri
     private Uri image_uri;
 
     private double latitude, longitude;
 
     private LocationManager locationManager;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register_user);
 
-        //init UI views
+        // Init UI vies
         backBtn = findViewById(R.id.backBtn);
         gpsBtn = findViewById(R.id.gpsBtn);
         profileIv = findViewById(R.id.profileIv);
         nameEt = findViewById(R.id.nameEt);
         phoneEt = findViewById(R.id.phoneEt);
-        countryEt= findViewById(R.id.countryEt);
+        countryEt = findViewById(R.id.countryEt);
         stateEt = findViewById(R.id.stateEt);
-        cityEt = findViewById(R.id.cityEt);
+        cityEt  = findViewById(R.id.cityEt);
         addressEt = findViewById(R.id.addressEt);
         emailEt = findViewById(R.id.emailEt);
         passwordEt = findViewById(R.id.passwordEt);
@@ -80,9 +85,10 @@ public class RegisterUserActivity extends AppCompatActivity implements LocationL
         registerBtn = findViewById(R.id.registerBtn);
         registerSellerTv = findViewById(R.id.registerSellerTv);
 
-        //init permission Array
+        // init permission array
         locationPermissions = new String[]{Manifest.permission.ACCESS_FINE_LOCATION};
-        cameraPermissions = new String[]{Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE};
+        cameraPermissions = new String[]{Manifest.permission.CAMERA,
+                Manifest.permission.WRITE_EXTERNAL_STORAGE};
         storagePermissions = new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE};
 
         backBtn.setOnClickListener(new View.OnClickListener() {
@@ -95,13 +101,12 @@ public class RegisterUserActivity extends AppCompatActivity implements LocationL
         gpsBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //detect current location
+                // detect current location
                 if (checkLocationPermission()){
                     // already allowed
-                    detectLocation();
-                }
-                else {
-                    // not allowed, reques
+                    detectLoction();
+                } else {
+                    // not allowed, request
                     requestLocationPermission();
                 }
             }
@@ -110,7 +115,7 @@ public class RegisterUserActivity extends AppCompatActivity implements LocationL
         profileIv.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //pick image
+                // pick image
                 showImagePickDialog();
             }
         });
@@ -118,46 +123,45 @@ public class RegisterUserActivity extends AppCompatActivity implements LocationL
         registerBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //register user
+                // register user
             }
         });
 
         registerSellerTv.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //oper register seller Activity
+                // open register seller activity
                 startActivity(new Intent(RegisterUserActivity.this, RegisterSellerActivity.class));
             }
         });
     }
 
     private void showImagePickDialog() {
-        //option to display in dialog
+        // options to display in dialog
         String[] options = {"Camera", "Gallery"};
-        //dialog
+        // dialog
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle("Pick Image")
+        builder.setTitle("Pick image")
                 .setItems(options, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         // handle clicks
                         if (which == 0){
-                            //camera clicked
+                            // camera clicked
                             if (checkCameraPermission()){
-                                //camera permissions allowed
+                                //camera permission allowed
                                 pickFromCamera();
                             } else {
-                                //not allowed, request
+                                // not allowed, request
                                 requestCameraPermission();
                             }
-                        }
-                        else {
-                            //gallery clicked
+                        } else {
+                            // gallery clicked
                             if (checkStoragePermission()){
-                                //storage permissions allowed
+                                //storage permission allowed
                                 pickFromGallery();
                             } else {
-                                //not allowed, request
+                                // not allowed, request
                                 requestStoragePermission();
                             }
                         }
@@ -184,39 +188,14 @@ public class RegisterUserActivity extends AppCompatActivity implements LocationL
         startActivityForResult(intent, IMAGE_PICK_CAMERA_CODE);
     }
 
-    private void detectLocation() {
+    private void detectLoction() {
         Toast.makeText(this, "Please wait...", Toast.LENGTH_LONG).show();
 
         locationManager = (LocationManager)getSystemService(Context.LOCATION_SERVICE);
         locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, this);
     }
 
-    private void findAddress() {
-        //find address, country, state, city
-        Geocoder geocoder;
-        List<Address> addresses;
-        geocoder = new Geocoder(this, Locale.getDefault());
-
-        try {
-            addresses = geocoder.getFromLocation(latitude, longitude, 1);
-
-            String address = addresses.get(0).getAddressLine(0);  // completed address
-            String city = addresses.get(0).getLocality();
-            String state = addresses.get(0).getAdminArea();
-            String country = addresses.get(0).getCountryName();
-
-            //set addresses
-            countryEt.setText(country);
-            stateEt.setText(state);
-            cityEt.setText(city);
-            addressEt.setText(address);
-        }
-        catch (Exception e){
-            Toast.makeText(this, ""+ e.getMessage(), Toast.LENGTH_SHORT).show();
-        }
-    }
     private boolean checkLocationPermission(){
-
         boolean result = ContextCompat.checkSelfPermission(this,
                 Manifest.permission.ACCESS_FINE_LOCATION) ==
                 (PackageManager.PERMISSION_GRANTED);
@@ -243,6 +222,7 @@ public class RegisterUserActivity extends AppCompatActivity implements LocationL
         boolean result = ContextCompat.checkSelfPermission(this,
                 Manifest.permission.CAMERA) ==
                 (PackageManager.PERMISSION_GRANTED);
+
         boolean result1 = ContextCompat.checkSelfPermission(this,
                 Manifest.permission.WRITE_EXTERNAL_STORAGE) ==
                 (PackageManager.PERMISSION_GRANTED);
@@ -254,15 +234,38 @@ public class RegisterUserActivity extends AppCompatActivity implements LocationL
         ActivityCompat.requestPermissions(this, cameraPermissions, CAMERA_REQUEST_CODE);
     }
 
-
-
     @Override
     public void onLocationChanged(Location location) {
-        //location detected
+        // location detected
         latitude = location.getLatitude();
         longitude = location.getLongitude();
 
         findAddress();
+    }
+
+    private void findAddress() {
+        // find address, country, state, city.
+        Geocoder geocoder;
+        List<Address> addresses;
+        geocoder = new Geocoder(this, Locale.getDefault());
+
+        try {
+            addresses = geocoder.getFromLocation(latitude, longitude, 1);
+
+            String address = addresses.get(0).getAddressLine(0); // completed address
+            String city = addresses.get(0).getLocality();
+            String state = addresses.get(0).getAdminArea();
+            String country = addresses.get(0).getCountryName();
+
+            // set addresses
+            countryEt.setText(country);
+            stateEt.setText(state);
+            cityEt.setText(city);
+            addressEt.setText(address);
+        }
+        catch (Exception e){
+            Toast.makeText(this,"" + e.getMessage(), Toast.LENGTH_SHORT).show();
+        }
     }
 
     @Override
@@ -277,78 +280,79 @@ public class RegisterUserActivity extends AppCompatActivity implements LocationL
 
     @Override
     public void onProviderDisabled(String provider) {
-        //gps/location disabled
-        Toast.makeText(this, "Please turn on location...", Toast.LENGTH_SHORT).show();
+        // gps location disabled
+        Toast.makeText(this, "Please turn on location... ", Toast.LENGTH_SHORT).show();
     }
-
-
 
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+
         switch (requestCode){
             case LOCATION_REQUEST_CODE:{
                 if (grantResults.length > 0){
                     boolean locationAccepted = grantResults[0] == PackageManager.PERMISSION_GRANTED;
                     if (locationAccepted){
-                        //permission allowed
-                        detectLocation();
-                    }
-                    else {
-                        //permission denied
-                        Toast.makeText(this, "Location permission is necessary...", Toast.LENGTH_SHORT).show();
-
+                        // if permission allowed
+                        detectLoction();
+                    } else {
+                        // permission denied
+                        Toast.makeText(this, "Location permission is necessary", Toast.LENGTH_SHORT).show();
                     }
                 }
             }
             break;
+
             case CAMERA_REQUEST_CODE:{
                 if (grantResults.length > 0){
                     boolean cameraAccepted = grantResults[0] == PackageManager.PERMISSION_GRANTED;
                     boolean storageAccepted = grantResults[1] == PackageManager.PERMISSION_GRANTED;
                     if (cameraAccepted && storageAccepted){
-                        //permission allowed
+                        // if permission allowed
                         pickFromCamera();
-                    }
-                    else {
-                        //permission denied
-                        Toast.makeText(this, "Camera permissions are necessary...", Toast.LENGTH_SHORT).show();
-
+                    } else {
+                        // permission denied
+                        Toast.makeText(this, "Camera permissions are necessary", Toast.LENGTH_SHORT).show();
                     }
                 }
             }
             break;
+
             case STORAGE_REQUEST_CODE:{
                 if (grantResults.length > 0){
-                    boolean storageAccepted = grantResults[0] == PackageManager.PERMISSION_GRANTED;
+                    boolean storageAccepted = grantResults[1] == PackageManager.PERMISSION_GRANTED;
                     if (storageAccepted){
-                        //permission allowed
+                        // if permission allowed
                         pickFromGallery();
-                    }
-                    else {
-                        //permission denied
-                        Toast.makeText(this, "Storage permission is necessary...", Toast.LENGTH_SHORT).show();
-
+                    } else {
+                        // permission denied
+                        Toast.makeText(this, "Storage permission is necessary", Toast.LENGTH_SHORT).show();
                     }
                 }
             }
             break;
         }
+
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        if (requestCode == RESULT_OK){
+        if (resultCode == RESULT_OK){
 
-            if (requestCode == IMAGE_PICK_GALLERY_CODE) {
-                //get picked image
+            if (requestCode == IMAGE_PICK_GALLERY_CODE){
+
+                // get picked image
                 image_uri = data.getData();
-                //set to imageView
-                profileIv.setImageURI(image_uri);
-            } else if (requestCode == IMAGE_PICK_CAMERA_CODE) {
-                //set to imageView
-                profileIv.setImageURI(image_uri);
+                // set to imageView
+                //profileIv.setImageURI(image_uri);
+                Picasso.get().load(image_uri).fit().centerCrop().into(profileIv);
+            } else if(requestCode == IMAGE_PICK_CAMERA_CODE){
+
+                // set too imageView
+                //profileIv.setImageURI(image_uri);
+                Picasso.get().load(image_uri).fit().centerCrop().into(profileIv);
             }
+
         }
         super.onActivityResult(requestCode, resultCode, data);
     }
