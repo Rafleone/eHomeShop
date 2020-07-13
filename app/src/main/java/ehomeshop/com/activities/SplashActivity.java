@@ -1,4 +1,4 @@
-package ehomeshop.com;
+package ehomeshop.com.activities;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -16,6 +16,8 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+
+import ehomeshop.com.R;
 
 public class SplashActivity extends AppCompatActivity {
 
@@ -55,21 +57,19 @@ public class SplashActivity extends AppCompatActivity {
         //if user is Buyer, start user main screen
 
         DatabaseReference ref = FirebaseDatabase.getInstance().getReference("Users");
-        ref.orderByChild("uid").equalTo(firebaseAuth.getUid())
+        ref.child(firebaseAuth.getUid())
                 .addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                        for (DataSnapshot ds: dataSnapshot.getChildren()){
-                            String accountType = "" + ds.child("accountType").getValue();
-                            if (accountType.equals("Seller")){
-                                //user is seller
-                                startActivity(new Intent(SplashActivity.this, MainSellerActivity.class));
-                                finish();
-                            } else {
-                                //user is buyer
-                                startActivity(new Intent(SplashActivity.this, MainUserActivity.class));
-                                finish();
-                            }
+                        String accountType = "" + dataSnapshot.child("accountType").getValue();
+                        if (accountType.equals("Seller")){
+                            //user is seller
+                            startActivity(new Intent(SplashActivity.this, MainSellerActivity.class));
+                            finish();
+                        } else {
+                            //user is buyer
+                            startActivity(new Intent(SplashActivity.this, MainUserActivity.class));
+                            finish();
                         }
                     }
 

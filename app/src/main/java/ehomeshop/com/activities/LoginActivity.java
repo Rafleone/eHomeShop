@@ -1,4 +1,4 @@
-package ehomeshop.com;
+package ehomeshop.com.activities;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -25,6 +25,8 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.HashMap;
+
+import ehomeshop.com.R;
 
 public class LoginActivity extends AppCompatActivity {
 

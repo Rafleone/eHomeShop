@@ -4,6 +4,9 @@ import android.widget.Filter;
 
 import java.util.ArrayList;
 
+import ehomeshop.com.adapters.AdapterProductSeller;
+import ehomeshop.com.models.ModelProduct;
+
 public class FilterProduct extends Filter {
 
     private AdapterProductSeller adapter;

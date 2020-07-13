@@ -1,4 +1,4 @@
-package ehomeshop.com;
+package ehomeshop.com.activities;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -46,6 +46,8 @@ import com.squareup.picasso.Picasso;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
+
+import ehomeshop.com.R;
 
 public class RegisterSellerActivity extends AppCompatActivity implements LocationListener {
 
@@ -403,7 +405,12 @@ public class RegisterSellerActivity extends AppCompatActivity implements Locatio
         Toast.makeText(this, "Please wait...", Toast.LENGTH_LONG).show();
 
         locationManager = (LocationManager)getSystemService(Context.LOCATION_SERVICE);
-        locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, this);
+        locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+        try {
+            locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER,0,0,this);
+        }catch (SecurityException e){
+            e.printStackTrace();
+        }
     }
 
     private boolean checkLocationPermission(){

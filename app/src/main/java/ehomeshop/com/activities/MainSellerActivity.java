@@ -1,4 +1,4 @@
-package ehomeshop.com;
+package ehomeshop.com.activities;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -9,7 +9,6 @@ import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
-import android.provider.ContactsContract;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
@@ -33,6 +32,11 @@ import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+
+import ehomeshop.com.adapters.AdapterProductSeller;
+import ehomeshop.com.Constants;
+import ehomeshop.com.models.ModelProduct;
+import ehomeshop.com.R;
 
 public class MainSellerActivity extends AppCompatActivity {
 
@@ -124,7 +128,7 @@ public class MainSellerActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 //open edit add product activity
-                startActivity(new Intent(MainSellerActivity.this, AddProductActivityActivity.class));
+                startActivity(new Intent(MainSellerActivity.this, AddProductActivity.class));
             }
         });
 

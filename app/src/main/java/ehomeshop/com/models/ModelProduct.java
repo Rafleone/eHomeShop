@@ -1,4 +1,4 @@
-package ehomeshop.com;
+package ehomeshop.com.models;
 
 public class ModelProduct {
 
