@@ -1,6 +1,7 @@
 package ehomeshop.com.adapters;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,6 +17,7 @@ import com.squareup.picasso.Picasso;
 import java.util.ArrayList;
 
 import ehomeshop.com.R;
+import ehomeshop.com.activities.ShopDetailsActivity;
 import ehomeshop.com.models.ModelShop;
 
 public class AdapterShop extends RecyclerView.Adapter<AdapterShop.HolderShop> {
@@ -51,7 +53,7 @@ public class AdapterShop extends RecyclerView.Adapter<AdapterShop.HolderShop> {
         String online = modelShop.getOnline();
         String name = modelShop.getName();
         String phone = modelShop.getPhone();
-        String uid = modelShop.getUid();
+        final String uid = modelShop.getUid();
         String timestamp = modelShop.getTimestamp();
         String shopName = modelShop.getShopName();
         String shopOpen = modelShop.getShopOpen();
@@ -86,6 +88,16 @@ public class AdapterShop extends RecyclerView.Adapter<AdapterShop.HolderShop> {
         } catch (Exception e){
             holder.shopIv.setImageResource(R.drawable.ic_store_grey);
         }
+
+        //handle click listener, show shop details
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(context, ShopDetailsActivity.class);
+                intent.putExtra("shopUid", uid);
+                context.startActivity(intent);
+            }
+        });
     }
 
     @Override

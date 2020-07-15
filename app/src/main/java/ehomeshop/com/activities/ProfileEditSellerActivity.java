@@ -445,7 +445,12 @@ public class ProfileEditSellerActivity extends AppCompatActivity implements Loca
         Toast.makeText(this, "Please wait...", Toast.LENGTH_SHORT).show();
 
         locationManager = (LocationManager)getSystemService(Context.LOCATION_SERVICE);
-        locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, this);
+        locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+        try {
+            locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER,0,0,this);
+        }catch (SecurityException e){
+            e.printStackTrace();
+        }
     }
 
     private void findAddress() {

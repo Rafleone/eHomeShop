@@ -231,6 +231,7 @@ public class ProfileEditUserActivity extends AppCompatActivity implements Locati
                                 hashMap.put("address", ""+address);
                                 hashMap.put("latitude", ""+latitude);
                                 hashMap.put("longitude", ""+longitude);
+                                hashMap.put("profileImage", ""+downloadImageUri);
 
                                 //update to db
                                 DatabaseReference ref = FirebaseDatabase.getInstance().getReference("Users");
@@ -420,7 +421,12 @@ public class ProfileEditUserActivity extends AppCompatActivity implements Locati
         Toast.makeText(this, "Please wait...", Toast.LENGTH_SHORT).show();
 
         locationManager = (LocationManager)getSystemService(Context.LOCATION_SERVICE);
-        locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, this);
+        locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+        try {
+            locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER,0,0,this);
+        }catch (SecurityException e){
+            e.printStackTrace();
+        }
     }
 
     private void findAddress() {

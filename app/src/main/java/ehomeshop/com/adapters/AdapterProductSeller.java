@@ -75,7 +75,7 @@ public class AdapterProductSeller extends RecyclerView.Adapter<AdapterProductSel
         holder.quantityTv.setText(quantity);
         holder.discountNoteTv.setText(discountNote);
         holder.discountedPriceTv.setText("$"+ discountPrice);
-        holder.originalPriceTv.setText("$"+ originalPrice);
+
         if (discountAvailable.equals("true")){
             //product is on discount
             holder.discountedPriceTv.setVisibility(View.VISIBLE);
@@ -85,6 +85,7 @@ public class AdapterProductSeller extends RecyclerView.Adapter<AdapterProductSel
             //product is on discount
             holder.discountedPriceTv.setVisibility(View.GONE);
             holder.discountNoteTv.setVisibility(View.GONE);
+            holder.originalPriceTv.setPaintFlags(0);
         }
 
         try {
