@@ -43,6 +43,9 @@ dependencies {
 
     //recicleView
     implementation "androidx.recyclerview:recyclerview:1.1.0"
+
+    //sqlite
+    implementation 'com.github.p32929:AndroidEasySQL-Library:1.4.1'
     
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'androidx.test.ext:junit:1.1.1'
