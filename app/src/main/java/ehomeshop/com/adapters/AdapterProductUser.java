@@ -104,8 +104,8 @@ public class AdapterProductUser extends RecyclerView.Adapter<AdapterProductUser.
         });
     }
 
-    private  double cost = 0;
-    private  double finalCost = 0;
+    private double cost = 0;
+    private double finalCost = 0;
     private int quantity = 0;
 
     private void showQuantityDialog(ModelProduct modelProduct) {
@@ -116,7 +116,7 @@ public class AdapterProductUser extends RecyclerView.Adapter<AdapterProductUser.
         final TextView titleTv = view.findViewById(R.id.titleTv);
         TextView pQuantityTv = view.findViewById(R.id.pQuantityTv);
         TextView descriptionTv = view.findViewById(R.id.descriptionTv);
-        TextView discountedNoteTv = view.findViewById(R.id.discountedNoteTv); 
+        TextView discountedNoteTv = view.findViewById(R.id.discountedNoteTv);
         final TextView originalPriceTv = view.findViewById(R.id.originalPriceTv);
         TextView priceDiscountedTv = view.findViewById(R.id.priceDiscountedTv);
         final TextView finalPriceTv = view.findViewById(R.id.finalPriceTv);
@@ -133,7 +133,7 @@ public class AdapterProductUser extends RecyclerView.Adapter<AdapterProductUser.
         String discountNote = modelProduct.getDiscountNote();
         String image = modelProduct.getProductIcon();
 
-        String price;
+        final String price;
         if (modelProduct.getDiscountAvailable().equals("true")){
             //product have discount
             price = modelProduct.getDiscountPrice();
@@ -203,12 +203,12 @@ public class AdapterProductUser extends RecyclerView.Adapter<AdapterProductUser.
             @Override
             public void onClick(View v) {
                 String title = titleTv.getText().toString().trim();
-                String priceEach = originalPriceTv.getText().toString().trim().replace("$", "");
-                String price = finalPriceTv.getText().toString().trim().replace("", "");
+                String priceEach = price;
+                String totalPrice = finalPriceTv.getText().toString().trim().replace("$", "");
                 String quantity = quantityTv.getText().toString().trim();
 
                 //add to db(SQLite)
-                addToCart(productId, title, priceEach, price, quantity);
+                addToCart(productId, title, priceEach, totalPrice, quantity);
 
                 dialog.dismiss();
             }
