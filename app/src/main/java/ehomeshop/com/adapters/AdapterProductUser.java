@@ -23,6 +23,7 @@ import java.util.ArrayList;
 
 import ehomeshop.com.FilterProductUser;
 import ehomeshop.com.R;
+import ehomeshop.com.activities.ShopDetailsActivity;
 import ehomeshop.com.models.ModelProduct;
 import p32929.androideasysql_library.Column;
 import p32929.androideasysql_library.EasyDB;
@@ -239,6 +240,9 @@ public class AdapterProductUser extends RecyclerView.Adapter<AdapterProductUser.
                 .doneDataAdding();
 
         Toast.makeText(context, "Added to cart...", Toast.LENGTH_SHORT).show();
+
+        //update cart connt
+        ((ShopDetailsActivity)context).cartCount();
     }
 
     @Override

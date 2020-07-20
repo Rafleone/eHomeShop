@@ -49,7 +49,7 @@ public class ShopDetailsActivity extends AppCompatActivity {
 
     //declare ui views
     private ImageView shopIv;
-    private TextView shopNameTv, phoneTv, emailTv, openCloseTv, deliveryFeeTv, addressTv, filteredProductsTv;
+    private TextView shopNameTv, phoneTv, emailTv, openCloseTv, deliveryFeeTv, addressTv, filteredProductsTv, cartCountTv;
     private ImageButton callBtn, mapBtn, cartBtn, backBtn, filterProductBtn;
     private EditText searchProductEt;
     private RecyclerView productsRv;
@@ -70,6 +70,8 @@ public class ShopDetailsActivity extends AppCompatActivity {
     //cart
     private ArrayList<ModelCartItem> cartItemList;
     private AdapterCartItem adapterCartItem;
+
+    private EasyDB easyDB;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -92,6 +94,7 @@ public class ShopDetailsActivity extends AppCompatActivity {
         filterProductBtn = findViewById(R.id.filterProductBtn);
         filteredProductsTv = findViewById(R.id.filteredProductsTv);
         productsRv = findViewById(R.id.productsRv);
+        cartCountTv = findViewById(R.id.cartCountTv);
 
         // init progress dialog
         progressDialog = new ProgressDialog(this);
@@ -105,9 +108,21 @@ public class ShopDetailsActivity extends AppCompatActivity {
         loadShopDetails();
         loadShopProducts();
 
+        //declare it to class level and init in onCreate
+        easyDB = EasyDB.init(this, "ITEMS_DB")
+                .setTableName("ITEMS_TABLE")
+                .addColumn(new Column("Item_Id", new String[]{"text", "unique"}))
+                .addColumn(new Column("Item_PID", new String[]{"text", "not null"}))
+                .addColumn(new Column("Item_Name", new String[]{"text", "not null"}))
+                .addColumn(new Column("Item_Price_Each", new String[]{"text", "not null"}))
+                .addColumn(new Column("Item_Price", new String[]{"text", "not null"}))
+                .addColumn(new Column("Item_Quantity", new String[]{"text", "not null"}))
+                .doneTableColumn();
+
         //each shop have its own products and orders so if add items to cart and go back and open cart in different shop then cart should be different
         //so delete cart data whenever user open this activity
         deleteCartData();
+        cartCount();
 
         //search
         searchProductEt.addTextChangedListener(new TextWatcher() {
@@ -188,16 +203,21 @@ public class ShopDetailsActivity extends AppCompatActivity {
     }
 
     private void deleteCartData() {
-        EasyDB easyDB = EasyDB.init(this, "ITEMS_DB")
-                .setTableName("ITEMS_TABLE")
-                .addColumn(new Column("Item_Id", new String[]{"text", "unique"}))
-                .addColumn(new Column("Item_PID", new String[]{"text", "not null"}))
-                .addColumn(new Column("Item_Name", new String[]{"text", "not null"}))
-                .addColumn(new Column("Item_Price_Each", new String[]{"text", "not null"}))
-                .addColumn(new Column("Item_Price", new String[]{"text", "not null"}))
-                .addColumn(new Column("Item_Quantity", new String[]{"text", "not null"}))
-                .doneTableColumn();
         easyDB.deleteAllDataFromTable(); // delete all records from cart
+    }
+
+    public void cartCount(){
+        //keep it public so we can access in adapter
+        //get cart count
+        int count = easyDB.getAllData().getCount();
+        if (count <= 0){
+            //no item in cart, hide cart count textView
+            cartCountTv.setVisibility(View.GONE);
+        } else {
+            //have items in cart, show cart count textview and set count
+            cartCountTv.setVisibility(View.VISIBLE);
+            cartCountTv.setText(""+ count); //concatenate with string, because we cant set integer in textView
+        }
     }
 
     public double allTotalPrice = 0.00;
@@ -320,6 +340,8 @@ public class ShopDetailsActivity extends AppCompatActivity {
 
         String cost = allTotalPriceTv.getText().toString().trim().replace("$", ""); // remove $ if contains
 
+        //add latitude, longitude of user to each order | delete previous orders from firebase or add manually to them
+
         //setup order data
         HashMap<String, String> hashMap = new HashMap<>();
         hashMap.put("orderId", ""+timestamp);
@@ -328,6 +350,9 @@ public class ShopDetailsActivity extends AppCompatActivity {
         hashMap.put("orderCost", ""+cost);
         hashMap.put("orderBy", ""+firebaseAuth.getUid());
         hashMap.put("orderTo", ""+shopUid);
+        hashMap.put("deliveryFee", ""+deliveryFee);
+        hashMap.put("latitude", ""+myLatitude);
+        hashMap.put("longitude", ""+myLongitude);
 
         //add to db
         final DatabaseReference ref = FirebaseDatabase.getInstance().getReference("Users").child(shopUid).child("Orders");
@@ -355,6 +380,12 @@ public class ShopDetailsActivity extends AppCompatActivity {
                         }
                         progressDialog.dismiss();
                         Toast.makeText(ShopDetailsActivity.this, "Order Placed Successfully", Toast.LENGTH_SHORT).show();
+
+                        //after placing order open order detalis page
+                        Intent intent = new Intent(ShopDetailsActivity.this, OrderDetailsUsersActivity.class);
+                        intent.putExtra("orderTo", shopUid);
+                        intent.putExtra("orderId", timestamp);
+                        startActivity(intent);
                     }
                 })
                 .addOnFailureListener(new OnFailureListener() {
