@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.app.AlertDialog;
+import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
@@ -22,6 +23,8 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -31,6 +34,7 @@ import com.google.firebase.database.ValueEventListener;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import ehomeshop.com.Constants;
 import ehomeshop.com.R;
@@ -51,11 +55,14 @@ public class ShopDetailsActivity extends AppCompatActivity {
     private RecyclerView productsRv;
 
     private String shopUid;
-    private String myLatitude, myLongitude;
+    private String myLatitude, myLongitude, myPhone;
     private String shopName, shopEmail, shopPhone, shopAddress, shopLatitude, shopLongitude;
     public String deliveryFee;
 
     private FirebaseAuth firebaseAuth;
+
+    //progress dialog
+    private ProgressDialog progressDialog;
 
     private ArrayList<ModelProduct> productList;
     private AdapterProductUser adapterProductUser;
@@ -85,6 +92,11 @@ public class ShopDetailsActivity extends AppCompatActivity {
         filterProductBtn = findViewById(R.id.filterProductBtn);
         filteredProductsTv = findViewById(R.id.filteredProductsTv);
         productsRv = findViewById(R.id.productsRv);
+
+        // init progress dialog
+        progressDialog = new ProgressDialog(this);
+        progressDialog.setTitle("Please wait");
+        progressDialog.setCanceledOnTouchOutside(false);
 
         //get uid of the shop from intent
         shopUid = getIntent().getStringExtra("shopUid");
@@ -269,6 +281,90 @@ public class ShopDetailsActivity extends AppCompatActivity {
             }
         });
 
+        //place order
+        checkoutBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //first validate delivery address
+                if (myLatitude.equals("") || myLatitude.equals("null") || myLongitude.equals("") || myLongitude.equals("null")){
+                    //user didnt enter address in profile
+                    Toast.makeText(ShopDetailsActivity.this, "Please enter your address in your profile before placing order...", Toast.LENGTH_SHORT).show();
+                    return; // dont proceed further
+                }
+
+                if (myPhone.equals("") || myLatitude.equals("null")){
+                    //user didnt enter phone number in profile
+                    Toast.makeText(ShopDetailsActivity.this, "Please enter your phone number in your profile before placing order...", Toast.LENGTH_SHORT).show();
+                    return; // dont proceed further
+                }
+
+                if (cartItemList.size() == 0){
+                    //cart list in empty
+                    Toast.makeText(ShopDetailsActivity.this, "No item in cart", Toast.LENGTH_SHORT).show();
+                    return; // dont proceed further
+                }
+
+                submitOrder();
+            }
+        });
+
+    }
+
+    private void submitOrder() {
+        //show progress dialog
+        progressDialog.setMessage("Placing order...");
+        progressDialog.show();
+
+        //for order id and order time
+        final String timestamp = ""+System.currentTimeMillis();
+
+        String cost = allTotalPriceTv.getText().toString().trim().replace("$", ""); // remove $ if contains
+
+        //setup order data
+        HashMap<String, String> hashMap = new HashMap<>();
+        hashMap.put("orderId", ""+timestamp);
+        hashMap.put("orderTime", ""+timestamp);
+        hashMap.put("orderStatus", "InProgress"); // in Progress/Completed/Cancelled
+        hashMap.put("orderCost", ""+cost);
+        hashMap.put("orderBy", ""+firebaseAuth.getUid());
+        hashMap.put("orderTo", ""+shopUid);
+
+        //add to db
+        final DatabaseReference ref = FirebaseDatabase.getInstance().getReference("Users").child(shopUid).child("Orders");
+        ref.child(timestamp).setValue(hashMap)
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                        //order info added now add order items
+                        for (int i = 0; i < cartItemList.size(); i++){
+                            String pId = cartItemList.get(i).getpId();
+                            String id = cartItemList.get(i).getId();
+                            String cost = cartItemList.get(i).getCost();
+                            String name = cartItemList.get(i).getName();
+                            String price = cartItemList.get(i).getPrice();
+                            String quantity = cartItemList.get(i).getQuantity();
+
+                            HashMap<String, String> hashMap1 = new HashMap<>();
+                            hashMap1.put("pId", pId);
+                            hashMap1.put("name", name);
+                            hashMap1.put("cost", cost);
+                            hashMap1.put("price", price);
+                            hashMap1.put("quantity", quantity);
+
+                            ref.child(timestamp).child("Items").child(pId).setValue(hashMap1);
+                        }
+                        progressDialog.dismiss();
+                        Toast.makeText(ShopDetailsActivity.this, "Order Placed Successfully", Toast.LENGTH_SHORT).show();
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        //failed placing order
+                        progressDialog.dismiss();
+                        Toast.makeText(ShopDetailsActivity.this, ""+e.getMessage(), Toast.LENGTH_SHORT).show();
+                    }
+                });
     }
 
     private void openMap() {
@@ -294,7 +390,7 @@ public class ShopDetailsActivity extends AppCompatActivity {
                             //get user data
                             String name = "" + ds.child("name").getValue();
                             String email = "" + ds.child("email").getValue();
-                            String phone = "" + ds.child("phone").getValue();
+                            myPhone = "" + ds.child("phone").getValue();
                             String profileImage = "" + ds.child("profileImage").getValue();
                             String accountType = "" + ds.child("accountType").getValue();
                             String city = "" + ds.child("city").getValue();

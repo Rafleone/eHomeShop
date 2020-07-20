@@ -29,7 +29,9 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import ehomeshop.com.R;
+import ehomeshop.com.adapters.AdapterOrderUser;
 import ehomeshop.com.adapters.AdapterShop;
+import ehomeshop.com.models.ModelOrderUser;
 import ehomeshop.com.models.ModelShop;
 
 public class MainUserActivity extends AppCompatActivity {
@@ -38,13 +40,16 @@ public class MainUserActivity extends AppCompatActivity {
     private ImageButton logoutBtn, editProfileBtn;
     private ImageView profileIv;
     private RelativeLayout shopsRl, ordersRl;
-    private RecyclerView shopsRv;
+    private RecyclerView shopsRv, orderRv;
 
     private ProgressDialog progressDialog;
     private FirebaseAuth firebaseAuth;
 
     private ArrayList<ModelShop> shopsList;
     private AdapterShop adapterShop;
+
+    private ArrayList<ModelOrderUser> ordersList;
+    private AdapterOrderUser adapterOrderUser;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,6 +67,7 @@ public class MainUserActivity extends AppCompatActivity {
         shopsRl = findViewById(R.id.shopsRl);
         ordersRl = findViewById(R.id.ordersRl);
         shopsRv = findViewById(R.id.shopsRv);
+        orderRv = findViewById(R.id.orderRv);
 
         progressDialog = new ProgressDialog(this);
         progressDialog.setTitle("Please wait...");
@@ -196,6 +202,7 @@ public class MainUserActivity extends AppCompatActivity {
 
                             //load only those shops that are in the city of user
                             loadShops(city);
+                            loadOrders();
                         }
                     }
 
@@ -204,6 +211,55 @@ public class MainUserActivity extends AppCompatActivity {
 
                     }
                 });
+    }
+
+    private void loadOrders() {
+        //init order list
+        ordersList = new ArrayList<>();
+
+        //get orders
+        DatabaseReference ref = FirebaseDatabase.getInstance().getReference("Users");
+        ref.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                ordersList.clear();
+                for (DataSnapshot ds: dataSnapshot.getChildren()){
+                    String uid = ""+ds.getRef().getKey();
+
+                    DatabaseReference ref = FirebaseDatabase.getInstance().getReference("Users").child(uid).child("Orders");
+                    ref.orderByChild("orderBy").equalTo(firebaseAuth.getUid())
+                            .addValueEventListener(new ValueEventListener() {
+                                @Override
+                                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                                    if (dataSnapshot.exists()){
+                                        for (DataSnapshot ds: dataSnapshot.getChildren()){
+                                            ModelOrderUser modelOrderUser = ds.getValue(ModelOrderUser.class);
+
+                                            //add to list
+                                            ordersList.add(modelOrderUser);
+                                        }
+                                        //setup adapter
+                                        adapterOrderUser = new AdapterOrderUser(MainUserActivity.this, ordersList);
+
+                                        //set to recyclerView
+                                        orderRv.setAdapter(adapterOrderUser);
+                                    }
+
+                                }
+
+                                @Override
+                                public void onCancelled(@NonNull DatabaseError error) {
+
+                                }
+                            });
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
     }
 
     private void loadShops(final String myCity) {
