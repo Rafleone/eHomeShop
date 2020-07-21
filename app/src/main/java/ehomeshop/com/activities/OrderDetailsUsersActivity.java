@@ -34,7 +34,7 @@ public class OrderDetailsUsersActivity extends AppCompatActivity {
     private String orderTo, orderId;
 
     //ui views
-    private ImageButton backBtn;
+    private ImageButton backBtn, writeReviewBtn;
     private TextView orderIdTv, dateTv, ordersStatusTv, shopNameTv, totalItemsTv, amountTv, addressTv;
     private RecyclerView itemsRv;
 
@@ -50,6 +50,7 @@ public class OrderDetailsUsersActivity extends AppCompatActivity {
 
         //init views
         backBtn = findViewById(R.id.backBtn);
+        writeReviewBtn = findViewById(R.id.writeReviewBtn);
         orderIdTv = findViewById(R.id.orderIdTv);
         dateTv = findViewById(R.id.dateTv);
         ordersStatusTv = findViewById(R.id.ordersStatusTv);
@@ -72,6 +73,16 @@ public class OrderDetailsUsersActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 onBackPressed();
+            }
+        });
+
+        //handle writeReviewBtn click, start write review activity
+        writeReviewBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent1 = new Intent(OrderDetailsUsersActivity.this, WriteReviewActivity.class);
+                intent1.putExtra("shopUid", orderTo); // to write review to a shop we must have uid of shop
+                startActivity(intent1);
             }
         });
     }
