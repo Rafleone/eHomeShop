@@ -29,6 +29,15 @@
             android:layout_toStartOf="@+id/logoutBtn"
             android:background="@null"/>
 
+        <!--Settings Button-->
+        <ImageButton
+            android:id="@+id/settingsBtn"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:background="@null"
+            android:src="@drawable/ic_settings_white"
+            android:layout_toStartOf="@+id/editProfileBtn"/>
+
         <com.blogspot.atifsoftwares.circularimageview.CircularImageView
             android:id="@+id/profileIv"
             android:layout_width="70dp"

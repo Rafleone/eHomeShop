@@ -43,7 +43,7 @@ import ehomeshop.com.R;
 public class MainSellerActivity extends AppCompatActivity {
 
     private TextView nameTv, shopNameTv, emailTv, tabProductsTv, tabOrdersTv, filteredProductTv, filteredOrdersTv;
-    private ImageButton logoutBtn, editProfileBtn, addProductBtn, filterProductBtn, filterOrderBtn, reviewsBtn;
+    private ImageButton logoutBtn, editProfileBtn, addProductBtn, filterProductBtn, filterOrderBtn, reviewsBtn, settingsBtn;
     private ImageView profileIv;
     private RelativeLayout productsRl, ordersRl;
     private EditText searchProductEt;
@@ -82,6 +82,7 @@ public class MainSellerActivity extends AppCompatActivity {
         filterOrderBtn = findViewById(R.id.filterOrderBtn);
         ordersRv = findViewById(R.id.ordersRv);
         reviewsBtn = findViewById(R.id.reviewsBtn);
+        settingsBtn = findViewById(R.id.settingsBtn);
 
         progressDialog = new ProgressDialog(this);
         progressDialog.setTitle("Please wait...");
@@ -216,6 +217,14 @@ public class MainSellerActivity extends AppCompatActivity {
                 Intent intent = new Intent(MainSellerActivity.this, ShopReviewsActivity.class);
                 intent.putExtra("shopUid", firebaseAuth.getUid());
                 startActivity(intent);
+            }
+        });
+
+        //start settings screen
+        settingsBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(MainSellerActivity.this, SettingsActivity.class));
             }
         });
     }

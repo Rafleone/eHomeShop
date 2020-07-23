@@ -16,7 +16,8 @@
         android:roundIcon="@id/icon"
         android:supportsRtl="true"
         android:theme="@style/AppTheme.NoActionBar">
-        <activity android:name=".activities.OrderDetailsSellerActivity"></activity>
+        <activity android:name=".activities.SettingsActivity"></activity>
+        <activity android:name=".activities.OrderDetailsSellerActivity" />
         <activity android:name=".activities.ShopReviewsActivity" />
         <activity android:name=".activities.WriteReviewActivity" />
         <activity android:name=".activities.OrderDetailsUsersActivity" />

@@ -37,7 +37,7 @@ import ehomeshop.com.models.ModelShop;
 public class MainUserActivity extends AppCompatActivity {
 
     private TextView nameTv, emailTv, phoneTv, tabShopsTv, tabOrdersTv;
-    private ImageButton logoutBtn, editProfileBtn;
+    private ImageButton logoutBtn, editProfileBtn, settingsBtn;
     private ImageView profileIv;
     private RelativeLayout shopsRl, ordersRl;
     private RecyclerView shopsRv, orderRv;
@@ -68,6 +68,7 @@ public class MainUserActivity extends AppCompatActivity {
         ordersRl = findViewById(R.id.ordersRl);
         shopsRv = findViewById(R.id.shopsRv);
         orderRv = findViewById(R.id.orderRv);
+        settingsBtn = findViewById(R.id.settingsBtn);
 
         progressDialog = new ProgressDialog(this);
         progressDialog.setTitle("Please wait...");
@@ -109,6 +110,14 @@ public class MainUserActivity extends AppCompatActivity {
             public void onClick(View v) {
                 //show orders
                 showOrdersUI();
+            }
+        });
+
+        //start settings screen
+        settingsBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(MainUserActivity.this, SettingsActivity.class));
             }
         });
     }

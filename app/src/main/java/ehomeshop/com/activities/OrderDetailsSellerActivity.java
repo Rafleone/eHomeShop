@@ -284,6 +284,7 @@ public class OrderDetailsSellerActivity extends AppCompatActivity {
                         }
                         //setup adapter
                         adapterOrderedItem = new AdapterOrderedItem(OrderDetailsSellerActivity.this, orderedItemArrayList);
+
                         //set adapter to our recyclerView
                         itemsRv.setAdapter(adapterOrderedItem);
 
