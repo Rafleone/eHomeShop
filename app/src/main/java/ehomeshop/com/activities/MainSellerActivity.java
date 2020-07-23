@@ -43,7 +43,7 @@ import ehomeshop.com.R;
 public class MainSellerActivity extends AppCompatActivity {
 
     private TextView nameTv, shopNameTv, emailTv, tabProductsTv, tabOrdersTv, filteredProductTv, filteredOrdersTv;
-    private ImageButton logoutBtn, editProfileBtn, addProductBtn, filterProductBtn, filterOrderBtn;
+    private ImageButton logoutBtn, editProfileBtn, addProductBtn, filterProductBtn, filterOrderBtn, reviewsBtn;
     private ImageView profileIv;
     private RelativeLayout productsRl, ordersRl;
     private EditText searchProductEt;
@@ -81,6 +81,7 @@ public class MainSellerActivity extends AppCompatActivity {
         filteredOrdersTv = findViewById(R.id.filteredOrdersTv);
         filterOrderBtn = findViewById(R.id.filterOrderBtn);
         ordersRv = findViewById(R.id.ordersRv);
+        reviewsBtn = findViewById(R.id.reviewsBtn);
 
         progressDialog = new ProgressDialog(this);
         progressDialog.setTitle("Please wait...");
@@ -205,6 +206,16 @@ public class MainSellerActivity extends AppCompatActivity {
                             }
                         })
                         .show();
+            }
+        });
+
+        reviewsBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //open same reviews activity as used in user main page
+                Intent intent = new Intent(MainSellerActivity.this, ShopReviewsActivity.class);
+                intent.putExtra("shopUid", firebaseAuth.getUid());
+                startActivity(intent);
             }
         });
     }

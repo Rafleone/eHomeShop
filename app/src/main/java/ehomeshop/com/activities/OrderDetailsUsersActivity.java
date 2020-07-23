@@ -121,7 +121,7 @@ public class OrderDetailsUsersActivity extends AppCompatActivity {
                 });
     }
 
-    private void loadOrderDetails() {
+    private void loadOrderDetails(){
         //load order details
         DatabaseReference ref = FirebaseDatabase.getInstance().getReference("Users");
         ref.child(orderTo).child("Orders").child(orderId)
