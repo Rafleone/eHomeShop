@@ -9,6 +9,7 @@
     
     <!-- ToolBar -->
     <RelativeLayout
+        android:id="@+id/header"
         android:layout_width="match_parent"
         android:layout_height="80dp"
         android:padding="10dp"
@@ -24,27 +25,23 @@
             android:textColor="@color/colorWhite"/>
     </RelativeLayout>
 
-    <ImageView
-        android:id="@+id/iconIv"
-        android:layout_width="40dp"
-        android:layout_height="40dp"
-        android:background="@drawable/shape_circle01"
-        android:layout_marginTop="60dp"
-        android:src="@drawable/ic_key_white"
-        android:padding="5dp"
-        android:layout_marginBottom="40dp"
-        android:layout_centerHorizontal="true"/>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:orientation="vertical">
 
     <EditText
         android:id="@+id/emailEt"
-        android:layout_below="@+id/iconIv"
+        android:layout_below="@+id/header"
         android:hint="Email"
         android:padding="10dp"
         android:drawableStart="@drawable/ic_mail_grey"
         android:drawablePadding="5dp"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="5dp"
+        android:layout_width="300dp"
+        android:layout_height="45dp"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="50dp"
         android:inputType="textEmailAddress"
         android:background="@drawable/shape_rect02"/>
 
@@ -55,9 +52,10 @@
         android:padding="10dp"
         android:drawableStart="@drawable/ic_lock_grey"
         android:drawablePadding="5dp"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_width="300dp"
+        android:layout_height="45dp"
         android:layout_margin="5dp"
+        android:layout_centerHorizontal="true"
         android:inputType="textPassword"
         android:background="@drawable/shape_rect02"/>
 
@@ -67,8 +65,8 @@
         android:layout_height="wrap_content"
         android:layout_margin="5dp"
         android:text="Forget Password?"
-        android:layout_below="@id/passwordEt"
-        android:layout_alignParentEnd="true"/>
+        android:layout_marginRight="100dp"/>
+
 
     <Button
         android:id="@+id/loginBtn"
@@ -84,9 +82,11 @@
         android:id="@+id/noAccountTv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_margin="5dp"
+       android:layout_marginTop="8dp"
+        android:layout_below="@+id/loginBtn"
         android:text="Not have account? Register"
         android:layout_centerHorizontal="true"
         android:layout_alignParentBottom="true"/>
+    </LinearLayout>
 
 </RelativeLayout>

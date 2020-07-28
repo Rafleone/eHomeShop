@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#0A527E</color>
-    <color name="colorPrimaryDark">#0A527E</color>
-    <color name="colorAccent">#0A527E</color>
+    <color name="colorPrimary">#FF323F51</color>
+    <color name="colorPrimaryDark">#323f51</color>
+    <color name="colorAccent">#FF323F51</color>
     <color name="colorWhite">#fff</color>
     <color name="colorGray00">#f5f0f0</color>
     <color name="colorGrey01">#c9c9c9</color>
@@ -11,4 +11,95 @@
     <color name="colorGreen">#43A047</color>
     <color name="colorRed">#FFF41e1e</color>
 
-</resources>
+
+
+        <!--Color for Day Mode-->
+
+        <color name="colorHeading">#FF323F51</color>
+        <color name="colorLabel">#FF323F51</color>
+        <color name="colorNormal">#FF323F51</color>
+        <color name="tagline">#AAAAAA</color>
+
+        <color name="colorDefaultNavigationIconDay">#858D9B</color>
+        <color name="colorSelectedNavigationIconDay">#ffffffff</color>
+        <color name="colorBottomNavigationDay">#323f51</color>
+
+        <color name="colorDefaultFavouriteDay">#8DCCCCCC</color>
+        <color name="colorSelectedFavouriteDay">#EB0B0B</color>
+
+        <color name="colorRatingIconDay">#ffd500</color>
+        <color name="colorRequiredDay">#276FBF</color>
+        <color name="colorRequiredBackgroundDay">#5BCDE0F7</color>
+        <color name="colorTransparentBackgroundDay">#CE323F51</color>
+
+        <color name="colorButtonDay">#FF323F51</color>
+        <color name="yellow">#FFB01A</color>
+        <color name="colorProgressDay">#FF323F51</color>
+        <color name="colorCardDay">#ffffffff</color>
+        <color name="colorSelectorDay">#FF323F51</color>
+        <color name="colorSwitchTrackOnDay">#FF323F51</color>
+        <color name="colorSwitchTrackOffDay">#DBDFE5</color>
+        <color name="colorBackgroundLightDay">#2ccccccc</color>
+        <color name="colorReadingBarDay">#ffd500</color>
+        <color name="colorMenuBackgroundDay">#11D06B</color>
+        <color name="colorLinkDay">#0008f2</color>
+        <color name="colorNutritionBackgroundDay">#2ccccccc</color>
+        <color name="colorDeleteDay">#ae1212</color>
+
+        <!--Color for Night Mode-->
+
+        <color name="colorPrimaryNight">#000000</color>
+        <color name="colorPrimaryDarkNight">#000000</color>
+        <color name="colorAccentNight">#6596d6</color>
+        <color name="colorBackgroundNight">#000000</color>
+        <color name="colorButtonNight">#6596d6</color>
+
+        <color name="colorHeadingNight">#ffffff</color>
+        <color name="colorTaglineNight">#606E82</color>
+
+        <color name="colorDefaultNavigationIconNight">#222E3F</color>
+        <color name="colorSelectedNavigationIconNight">#ffffffff</color>
+        <color name="colorBottomNavigationNight">#323f51</color>
+
+        <color name="colorDefaultFavouriteNight">#2ccccccc</color>
+        <color name="colorSelectedFavouriteNight">#EB0B0B</color>
+
+        <color name="colorRatingIconNight">#ffd500</color>
+        <color name="colorRequiredNight">#276FBF</color>
+        <color name="colorRequiredBackgroundNight">#728FB4DE</color>
+        <color name="colorTransparentBackgroundNight">#5BCDE0F7</color>
+
+        <color name="colorArrowNight">#6596d6</color>
+        <color name="colorProgressNight">#6596d6</color>
+        <color name="colorCardNight">#0e0e0e</color>
+        <color name="colorSelectorNight">#6596d6</color>
+        <color name="colorSwitchTrackOnNight">#6596d6</color>
+        <color name="colorSwitchTrackOffNight">#606E82</color>
+        <color name="colorBackgroundLightNight">#000000</color>
+        <color name="colorReadingBarNight">#6596d6</color>
+        <color name="colorMenuBackgroundNight">#6596d6</color>
+        <color name="colorLinkNight">#54AAEC</color>
+        <color name="colorNutritionBackgroundNight">#0e0e0e</color>
+        <color name="colorDeleteNight">#6596d6</color>
+
+        <!--Color for Extensible Page Indicator-->
+
+        <color name="fpi_default_indicator_inactive_color">#80FFFFFF</color>
+        <color name="fpi_default_indicator_active_color">#FFFFFF</color>
+
+        <color name="white">#ffffffff</color>
+        <color name="transparent">#00FFFFFF</color>
+        <color name="pager_unselected">#AFCFCFCF</color>
+
+        <color name="bg_google">#DE4337</color>
+        <color name="bg_facebook">#3A559F</color>
+
+
+        <!--Color for Bubble Picker-->
+
+        <color name="order_ready">#FF6A00</color>
+        <color name="order_on_the_way">#11c612</color>
+        <color name="order_delivered">#00695C</color>
+
+
+    </resources>

@@ -51,7 +51,7 @@ public class MyFirebaseMessaging extends FirebaseMessagingService {
             String notificationTitle = remoteMessage.getData().get("notificationTitle");
             String notificationDescription = remoteMessage.getData().get("notificationMessage");
 
-            if (firebaseUser !=null && firebaseAuth.getUid().equals(sellerUid)){
+            if (firebaseUser != null && firebaseAuth.getUid().equals(sellerUid)){
                 //user is signed in and is same user to which notification is sent
                 showNotification(orderId, sellerUid, buyerUid, notificationTitle, notificationDescription, notificationType);
             }
@@ -115,7 +115,7 @@ public class MyFirebaseMessaging extends FirebaseMessagingService {
                 .setContentText(notificationDescription)
                 .setSound(notificationSoundUri)
                 .setAutoCancel(true) //cancel//dismiss when clicked
-                .setContentIntent(pendingIntent);
+                .setContentIntent(pendingIntent); //add intent
 
         //show notification
         notificationManager.notify(notificationID, notificationBuilder.build());

@@ -315,7 +315,7 @@ public class OrderDetailsSellerActivity extends AppCompatActivity {
         //When user seller changes order status InProgress/Cancelled/Completed, send notification to buyer
 
         //prepare data to notification
-        String NOTIFICATION_TOPIC = "/topics" + Constants.FCM_TOPIC; //must be same as subscribed by user
+        String NOTIFICATION_TOPIC = "/topics/" + Constants.FCM_TOPIC; //must be same as subscribed by user
         String NOTIFICATION_TITLE = "Your Order" + orderId;
         String NOTIFICATION_MESSAGE = "" + message;
         String NOTIFICATION_TYPE = "OrderStatusChanged";

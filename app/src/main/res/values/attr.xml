@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <declare-styleable name="ExtensiblePageIndicator">
+        <attr name="indicatorRadius" format="dimension" />
+        <attr name="indicatorPadding" format="dimension" />
+        <attr name="indicatorInactiveColor" format="color" />
+        <attr name="indicatorActiveColor" format="color" />
+        <attr name="android:gravity" />
+    </declare-styleable>
+
+    <declare-styleable name="ListOfColour">
+        <attr name="colorHeading" format="color" />
+        <attr name="colorTagline" format="color" />
+        <attr name="colorNormal" format="color" />
+        <attr name="colorLabel" format="color" />
+        <attr name="colorBackground" format="color" />
+        <attr name="colorBackgroundLight" format="color" />
+        <attr name="colorCard" format="color" />
+
+        <attr name="colorDefaultNavigationIcon" format="color" />
+        <attr name="colorSelectedNavigationIcon" format="color" />
+        <attr name="colorBottomNavigation" format="color" />
+
+        <attr name="colorDefaultFavouriteIcon" format="color" />
+        <attr name="colorSelectedFavouriteIcon" format="color" />
+
+        <attr name="colorRatingIcon" format="color" />
+        <attr name="colorRequired" format="color" />
+        <attr name="colorRequiredBackground" format="color" />
+        <attr name="colorTransparentBackground" format="color" />
+
+        <attr name="colorButton" format="color" />
+        <attr name="colorArrow" format="color" />
+        <attr name="colorProgress" format="color" />
+
+        <attr name="colorSelector" format="color" />
+        <attr name="colorTrackOff" format="color" />
+        <attr name="colorTrackOn" format="color" />
+
+        <attr name="colorReadingBar" format="color" />
+        <attr name="colorMenuBackground" format="color" />
+        <attr name="colorLink" format="color" />
+        <attr name="colorNutritionBackground" format="color" />
+        <attr name="colorDelete" format="color" />
+    </declare-styleable>
+
+    <declare-styleable name="CircleSeekBar">
+        <attr name="csb_progress" format="integer"/>
+        <attr name="csb_min" format="integer"/>
+        <attr name="csb_max" format="integer"/>
+        <attr name="csb_step" format="integer"/>
+
+        <attr name="csb_thumbDrawable" format="reference"/>
+        <attr name="csb_thumbSize" format="dimension" />
+
+        <attr name="csb_progressColor" format="color"/>
+        <attr name="csb_progressWidth" format="dimension"/>
+
+        <attr name="csb_arcColor" format="color"/>
+        <attr name="csb_arcWidth" format="dimension"/>
+
+        <attr name="csb_textSize" format="dimension"/>
+        <attr name="csb_textColor" format="color"/>
+        <attr name="csb_minTextSize" format="dimension"/>
+        <attr name="csb_secondaryText" format="string"/>
+
+        <attr name="csb_isShowText" format="boolean" />
+
+    </declare-styleable>
+
+
+</resources>
