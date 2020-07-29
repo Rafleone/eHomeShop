@@ -1,4 +1,4 @@
-package ehomeshop.com;
+package ehomeshop.com.activities;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -12,22 +12,20 @@ import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageButton;
-import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
 
 import java.text.DecimalFormat;
 import java.util.Calendar;
 import java.util.HashMap;
+
+import ehomeshop.com.R;
 
 public class AddPromotionCodeActivity extends AppCompatActivity {
 
@@ -103,7 +101,7 @@ public class AddPromotionCodeActivity extends AppCompatActivity {
 
                 DecimalFormat mFormat = new DecimalFormat("00");
                 String pDay = mFormat.format(dayOfMonth);
-                String pMonth = mFormat.format(monthOfYear);
+                String pMonth = mFormat.format(monthOfYear + 1);
                 String pYear = ""+ year;
                 String pDate = pDay + "/" + pMonth + "/" + pYear; //e.g 27/06/2020
 
