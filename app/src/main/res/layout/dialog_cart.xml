@@ -51,10 +51,76 @@
             android:layout_height="wrap_content"
             android:padding="10dp">
 
+            <!--Promo input layout-->
+            <RelativeLayout
+                android:id="@+id/promoRl"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/shape_rect02"
+                android:padding="5dp">
+
+                <TextView
+                    android:id="@+id/promoLabelTv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerHorizontal="true"
+                    android:padding="5dp"
+                    android:text="Promotion Code"
+                    android:textColor="@color/colorPrimary"
+                    android:textSize="16sp"
+                    android:textStyle="bold"/>
+
+                <EditText
+                    android:id="@+id/promoCodeEt"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/promoLabelTv"
+                    android:layout_marginEnd="5dp"
+                    android:layout_toStartOf="@+id/validateBtn"
+                    android:hint="Promo Code"
+                    android:padding="10dp"
+                    android:textColor="@color/colorBlack"
+                    android:textColorHint="@color/colorGrey01"
+                    android:textSize="14sp"/>
+
+                <com.google.android.material.floatingactionbutton.FloatingActionButton
+                    android:id="@+id/validateBtn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/promoLabelTv"
+                    android:layout_alignParentEnd="true"
+                    android:background="@android:color/transparent"
+                    android:src="@drawable/ic_send_primary"
+                    android:tint="@color/colorWhite"
+                    app:fabSize="mini"/>
+
+                <TextView
+                    android:id="@+id/promoDescriptionTv"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/promoCodeEt"
+                    android:hint="Promo Code Description"
+                    android:padding="10dp"
+                    android:textColor="@color/colorBlack"
+                    android:textColorHint="@color/colorGrey01"
+                    android:textSize="14sp"/>
+
+                <Button
+                    android:id="@+id/applyBtn"
+                    style="@style/Widget.AppCompat.Button.Colored"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/promoDescriptionTv"
+                    android:text="Apply"
+                    android:textColor="@color/colorWhite"/>
+
+            </RelativeLayout>
+
             <TextView
                 android:id="@+id/sTotalLabelTv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_below="@+id/promoRl"
                 android:padding="5dp"
                 android:text="Sub total:"
                 android:textStyle="bold"
@@ -64,11 +130,34 @@
                 android:id="@+id/sTotalTv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_below="@+id/promoRl"
                 android:padding="5dp"
                 android:text="$10"
                 android:textStyle="bold"
                 android:layout_alignParentEnd="true"
                 android:textColor="@color/colorBlack"/>
+
+            <!--display promotion price-->
+            <TextView
+                android:id="@+id/discountLabelTv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/sTotalLabelTv"
+                android:padding="5dp"
+                android:text="Discount"
+                android:textColor="@color/colorBlack"
+                android:textStyle="bold"/>
+
+            <TextView
+                android:id="@+id/discountTv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/sTotalLabelTv"
+                android:layout_alignParentEnd="true"
+                android:padding="5dp"
+                android:text="$2.00"
+                android:textColor="@color/colorBlack"
+                android:textStyle="bold"/>
 
             <TextView
                 android:id="@+id/dFeeLabelTv"
@@ -76,7 +165,7 @@
                 android:layout_height="wrap_content"
                 android:padding="5dp"
                 android:text="Delivery Fee:"
-                android:layout_below="@id/sTotalLabelTv"
+                android:layout_below="@id/discountLabelTv"
                 android:textStyle="bold"
                 android:textColor="@color/colorBlack"/>
 
@@ -86,7 +175,7 @@
                 android:layout_height="wrap_content"
                 android:padding="5dp"
                 android:text="$12"
-                android:layout_below="@id/sTotalLabelTv"
+                android:layout_below="@id/discountLabelTv"
                 android:textStyle="bold"
                 android:layout_alignParentEnd="true"
                 android:textColor="@color/colorBlack"/>
