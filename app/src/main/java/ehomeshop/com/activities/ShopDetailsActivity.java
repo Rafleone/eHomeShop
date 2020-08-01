@@ -391,21 +391,21 @@ public class ShopDetailsActivity extends AppCompatActivity {
             public void onClick(View v) {
                 //first validate delivery address
                 if (myLatitude.equals("") || myLatitude.equals("null") || myLongitude.equals("") || myLongitude.equals("null")){
-                    //user didnt enter address in profile
+                    //user didn't enter address in profile
                     Toast.makeText(ShopDetailsActivity.this, "Please enter your address in your profile before placing order...", Toast.LENGTH_SHORT).show();
-                    return; // dont proceed further
+                    return; // don't proceed further
                 }
 
                 if (myPhone.equals("") || myLatitude.equals("null")){
-                    //user didnt enter phone number in profile
+                    //user didn't enter phone number in profile
                     Toast.makeText(ShopDetailsActivity.this, "Please enter your phone number in your profile before placing order...", Toast.LENGTH_SHORT).show();
-                    return; // dont proceed further
+                    return; // don't proceed further
                 }
 
                 if (cartItemList.size() == 0){
                     //cart list in empty
                     Toast.makeText(ShopDetailsActivity.this, "No item in cart", Toast.LENGTH_SHORT).show();
-                    return; // dont proceed further
+                    return; // don't proceed further
                 }
 
                 submitOrder();
@@ -464,7 +464,7 @@ public class ShopDetailsActivity extends AppCompatActivity {
     }
 
     public boolean isPromoCodeApplied = false;
-    public String promoId, promoTimestamp, promoCode, promoDescription, promoExpDate, promoMinimumOrderPrice, promoPrice;
+    public String promoId, promoTimestamp, promoCode, promoDescription, promoExpDate, promoMinimumOrderPrice, promoPrice = "0.00";
     private void checkCodeAvailability(String promotionCode){//promotionCode is promo code entered by user
         //progress bar
         final ProgressDialog progressDialog = new ProgressDialog(this);
@@ -558,7 +558,7 @@ public class ShopDetailsActivity extends AppCompatActivity {
 
     private void checkMinimumOrderPrice() {
         //each promo code have minimum order price requirement, if order price is less then required then don't allow to apply code
-        if (Double.parseDouble(String.format("%.2f", allTotalPrice)) < Double.parseDouble(promoMinimumOrderPrice)){
+        if (allTotalPrice < Double.parseDouble(promoMinimumOrderPrice)){
             //current order price is less then minimum order price required by promo code, so don't allow to apply
             Toast.makeText(this, "This code is valid for order with minimum amount: $"+ promoMinimumOrderPrice, Toast.LENGTH_SHORT).show();
             applyBtn.setVisibility(View.GONE);

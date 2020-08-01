@@ -81,16 +81,17 @@ public class AdapterCartItem extends RecyclerView.Adapter<AdapterCartItem.Holder
                 double subTotalWithoutDiscount = ((ShopDetailsActivity)context).allTotalPrice;
                 double subTotalAfterProductRemove = subTotalWithoutDiscount - Double.parseDouble(cost.replace("$", ""));
                 ((ShopDetailsActivity)context).allTotalPrice = subTotalAfterProductRemove;
-                ((ShopDetailsActivity)context).sTotalTv.setText("$" + String.format("%.2f", ((ShopDetailsActivity)context).allTotalPrice));
+                ((ShopDetailsActivity)context).sTotalTv.setText("$" + ((ShopDetailsActivity)context).allTotalPrice);
 
                 //once subtotal is updated... check minimum order price of promo code
                 double promoPrice = Double.parseDouble(((ShopDetailsActivity)context).promoPrice);
+                //double promoPrice = Double.parseDouble(((ShopDetailsActivity)context).promoPrice);
                 double deliveryFee = Double.parseDouble(((ShopDetailsActivity)context).deliveryFee.replace("$", ""));
 
                 //check if promo code applied
                 if (((ShopDetailsActivity)context).isPromoCodeApplied){
                     //applied
-                    if (subTotalAfterProductRemove < Double.parseDouble(((ShopDetailsActivity)context).promoMinimumOrderPrice)){
+                   if (subTotalAfterProductRemove < Double.parseDouble(((ShopDetailsActivity)context).promoMinimumOrderPrice)){
                         //current order price is less then minimum required price
                         Toast.makeText(context, "This code is valid for order with minimum amount: $" + ((ShopDetailsActivity)context).promoMinimumOrderPrice, Toast.LENGTH_SHORT).show();
                         ((ShopDetailsActivity)context).applyBtn.setVisibility(View.GONE);
@@ -99,8 +100,8 @@ public class AdapterCartItem extends RecyclerView.Adapter<AdapterCartItem.Holder
                         ((ShopDetailsActivity)context).discountTv.setText("$0");
                         ((ShopDetailsActivity)context).isPromoCodeApplied = false;
 
-                        //show new net total after felivery fee
-                        ((ShopDetailsActivity)context).allTotalPriceTv.setText("$" + String.format("%.2f", Double.parseDouble(String.format("%.2f", subTotalAfterProductRemove + deliveryFee))));
+                        //show new net total after delivery fee
+                        ((ShopDetailsActivity)context).allTotalPriceTv.setText("$" + String.format("%.2f", subTotalAfterProductRemove + deliveryFee));
                     } else {
                         ((ShopDetailsActivity)context).applyBtn.setVisibility(View.VISIBLE);
                         ((ShopDetailsActivity)context).promoDescriptionTv.setVisibility(View.VISIBLE);
@@ -108,18 +109,19 @@ public class AdapterCartItem extends RecyclerView.Adapter<AdapterCartItem.Holder
 
                         //show new total price after adding delivery fee and subtracting promo fee
                         ((ShopDetailsActivity)context).isPromoCodeApplied = true;
-                        ((ShopDetailsActivity)context).allTotalPriceTv.setText("$" + String.format("%.2f", Double.parseDouble(String.format("%.2f", subTotalAfterProductRemove + deliveryFee - promoPrice))));
+
+                        ((ShopDetailsActivity)context).allTotalPriceTv.setText("$" + String.format("%.2f", subTotalAfterProductRemove + deliveryFee - promoPrice));
                     }
                 }
                 else {
                     //not applied
-                    ((ShopDetailsActivity)context).allTotalPriceTv.setText("$" + String.format("%.2f", Double.parseDouble(String.format("%.2f", subTotalAfterProductRemove + deliveryFee))));
+                    ((ShopDetailsActivity)context).allTotalPriceTv.setText("$" + String.format("%.2f", subTotalAfterProductRemove + deliveryFee));
                 }
 
-                // pirkiniu krepselio preke
+//                 //pirkiniu krepselio preke
 //                double tx = Double.parseDouble(((ShopDetailsActivity)context).allTotalPriceTv.getText().toString().trim().replace("$", ""));
 //                double totalPrice = tx - Double.parseDouble(cost.replace("$", ""));
-//                double deliveryFee = Double.parseDouble(((ShopDetailsActivity)context).deliveryFee.replace("$", ""));
+//                deliveryFee = Double.parseDouble(((ShopDetailsActivity)context).deliveryFee.replace("$", ""));
 //                //double sTotalPrice = Double.parseDouble(String.format("%.2f", totalPrice)) - Double.parseDouble(String.format("%.2f", deliveryFee));
 //                double sTotalPrice = totalPrice - deliveryFee;
 //                ((ShopDetailsActivity)context).allTotalPrice = 0.00;
