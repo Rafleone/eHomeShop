@@ -73,6 +73,7 @@ public class AdapterProductSeller extends RecyclerView.Adapter<AdapterProductSel
         //set data
         holder.titleTv.setText(title);
         holder.quantityTv.setText(quantity);
+        holder.originalPriceTv.setText("$" + originalPrice);
         holder.discountNoteTv.setText(discountNote);
         holder.discountedPriceTv.setText("$"+ discountPrice);
 

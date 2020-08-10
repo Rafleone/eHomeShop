@@ -1,12 +1,17 @@
 package ehomeshop.com.activities;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+import androidx.core.view.GravityCompat;
+import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -16,6 +21,7 @@ import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -34,7 +40,7 @@ import ehomeshop.com.adapters.AdapterShop;
 import ehomeshop.com.models.ModelOrderUser;
 import ehomeshop.com.models.ModelShop;
 
-public class MainUserActivity extends AppCompatActivity {
+public class MainUserActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
     private TextView nameTv, emailTv, phoneTv, tabShopsTv, tabOrdersTv;
     private ImageButton logoutBtn, editProfileBtn, settingsBtn;
@@ -50,6 +56,12 @@ public class MainUserActivity extends AppCompatActivity {
 
     private ArrayList<ModelOrderUser> ordersList;
     private AdapterOrderUser adapterOrderUser;
+
+    private DrawerLayout drawerLayout;
+    private ActionBarDrawerToggle mToggle;
+    private NavigationView navigationView;
+
+    private Toolbar drawe_toolbaar_user;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -70,6 +82,22 @@ public class MainUserActivity extends AppCompatActivity {
         orderRv = findViewById(R.id.orderRv);
         settingsBtn = findViewById(R.id.settingsBtn);
 
+        drawe_toolbaar_user = findViewById(R.id.drawe_toolbaar_user);
+
+        /*Set support action bar*/
+        setSupportActionBar(drawe_toolbaar_user);
+
+        /*Navigation drawer */
+        drawerLayout = findViewById(R.id.drawer_activity_user);
+        navigationView = findViewById(R.id.nav_view);
+
+        navigationView.bringToFront();
+        mToggle = new ActionBarDrawerToggle(this, drawerLayout, drawe_toolbaar_user, R.string.open, R.string.close);
+        drawerLayout.addDrawerListener(mToggle);
+        mToggle.syncState();
+
+        navigationView.setNavigationItemSelectedListener(this);
+
         progressDialog = new ProgressDialog(this);
         progressDialog.setTitle("Please wait...");
         progressDialog.setCanceledOnTouchOutside(false);
@@ -79,23 +107,23 @@ public class MainUserActivity extends AppCompatActivity {
         //at start shops ui
         showShopsUI();
 
-        logoutBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                //make offline
-                //sign out
-                //go to login activity
-                makeMeOffline();
-            }
-        });
+//        logoutBtn.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                //make offline
+//                //sign out
+//                //go to login activity
+//                makeMeOffline();
+//            }
+//        });
 
-        editProfileBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                //open edit profile activity
-                startActivity(new Intent(MainUserActivity.this, ProfileEditUserActivity.class));
-            }
-        });
+//        editProfileBtn.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                //open edit profile activity
+//                startActivity(new Intent(MainUserActivity.this, ProfileEditUserActivity.class));
+//            }
+//        });
 
         tabShopsTv.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -114,12 +142,12 @@ public class MainUserActivity extends AppCompatActivity {
         });
 
         //start settings screen
-        settingsBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(MainUserActivity.this, SettingsActivity.class));
-            }
-        });
+//        settingsBtn.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                startActivity(new Intent(MainUserActivity.this, SettingsActivity.class));
+//            }
+//        });
     }
 
     private void showShopsUI() {
@@ -306,5 +334,35 @@ public class MainUserActivity extends AppCompatActivity {
 
                     }
                 });
+    }
+
+    //Toolbar for nav bar
+    @Override
+    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+        switch (item.getItemId()){
+            case R.id.editProfileBtn:
+            startActivity(new Intent(MainUserActivity.this, ProfileEditUserActivity.class));
+            break;
+
+            case R.id.settingsBtn:
+                startActivity(new Intent(MainUserActivity.this, SettingsActivity.class));
+                break;
+
+            case R.id.logoutBtn:
+                makeMeOffline();
+                break;
+        }
+        return false;
+    }
+
+    //nav bar on back pressed
+    @Override
+    public void onBackPressed() {
+
+        if (drawerLayout.isDrawerOpen(GravityCompat.START)){
+            drawerLayout.closeDrawer(GravityCompat.START);
+        } else {
+            super.onBackPressed();
+        }
     }
 }

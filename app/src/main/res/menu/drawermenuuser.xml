@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <group android:checkableBehavior="single">
+
+        <item android:title="E HomeShop">
+            <menu>
+
+        <item android:id="@+id/editProfileBtn" android:title="Edit Profile" android:icon="@drawable/ic_baseline_edit_24" />
+        <item android:id="@+id/settingsBtn" android:title="settings" android:icon="@drawable/ic_settings_gray" />
+        <item android:id="@+id/logoutBtn" android:title="Logout" android:icon="@drawable/ic_logout_gray"/>
+
+            </menu>
+        </item>
+    </group>
+
+</menu>

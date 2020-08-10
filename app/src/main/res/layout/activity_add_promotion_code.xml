@@ -58,7 +58,7 @@
         android:inputType="textCapWords"
         android:padding="10dp"
         android:textColor="@color/colorBlack"
-        android:textColorHint="@color/colorGrey02"/>
+        android:textColorHint="@color/colorGray02"/>
 
     <EditText
         android:id="@+id/promoDescriptionEt"
@@ -73,7 +73,7 @@
         android:inputType="textCapSentences|textMultiLine"
         android:padding="10dp"
         android:textColor="@color/colorBlack"
-        android:textColorHint="@color/colorGrey02"/>
+        android:textColorHint="@color/colorGray02"/>
 
     <EditText
         android:id="@+id/promoPriceEt"
@@ -88,7 +88,7 @@
         android:inputType="numberDecimal"
         android:padding="10dp"
         android:textColor="@color/colorBlack"
-        android:textColorHint="@color/colorGrey02"/>
+        android:textColorHint="@color/colorGray02"/>
 
     <EditText
         android:id="@+id/minimumOrderPriceEt"
@@ -103,7 +103,7 @@
         android:inputType="numberDecimal"
         android:padding="10dp"
         android:textColor="@color/colorBlack"
-        android:textColorHint="@color/colorGrey02"/>
+        android:textColorHint="@color/colorGray02"/>
 
     <TextView
         android:id="@+id/expireDateTv"
@@ -118,7 +118,7 @@
         android:gravity="center_vertical"
         android:padding="10dp"
         android:textColor="@color/colorBlack"
-        android:textColorHint="@color/colorGrey02"/>
+        android:textColorHint="@color/colorGray02"/>
 
     <Button
         android:id="@+id/addBtn"

@@ -5,16 +5,13 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/bg_on_board"
     tools:context=".activities.SplashActivity">
 
-
     <ImageView
-        android:id="@+id/iconIv"
-        android:layout_width="150dp"
-        android:layout_height="150dp"
-        android:src="@drawable/icon"
-        android:layout_centerInParent="true"/>
+        android:id="@+id/hoverSplash"
+        android:layout_width="match_parent"
+        android:layout_height="400dp"
+        android:background="@drawable/mainftfull"/>
 
     <TextView
         android:layout_below="@+id/iconIv"
@@ -23,13 +20,36 @@
         android:text="@string/app_name"
         android:textSize="25dp"
         android:textStyle="bold"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="200dp"
         android:layout_centerHorizontal="true"
         android:textColor="@color/colorWhite"
         />
 
+    <ImageView
+        android:layout_width="341dp"
+        android:layout_height="107dp"
+        android:background="@drawable/welcometext"
+        android:layout_below="@id/hoverSplash"
+        android:layout_centerInParent="true"
+        android:layout_marginTop="100dp"/>
+
     <LinearLayout
         android:id="@+id/layout_configure"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:gravity="bottom"
+        android:orientation="vertical">
+
+        <ImageView
+            android:layout_width="414dp"
+            android:layout_height="65dp"
+            android:background="@drawable/bg"
+            />
+
+    </LinearLayout>
+
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
@@ -37,15 +57,17 @@
         android:gravity="center"
         android:orientation="vertical">
 
+        <ImageView
+            android:layout_width="58dp"
+            android:layout_height="19dp"
+            android:layout_marginBottom="10dp"
+            android:background="@drawable/loading"/>
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="20dp"
-            android:text="Loading"
-            android:textColor="@color/colorPrimaryDark"
-            android:textSize="15sp" />
+        <ImageView
+            android:layout_width="120dp"
+            android:layout_height="5dp"
+            android:background="@drawable/indicator"
+            android:layout_marginBottom="10dp"/>
 
     </LinearLayout>
-
 </RelativeLayout>

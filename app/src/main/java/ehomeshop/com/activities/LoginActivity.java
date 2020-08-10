@@ -11,6 +11,7 @@ import android.util.Patterns;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -33,7 +34,7 @@ public class LoginActivity extends AppCompatActivity {
     //Ui views
     private EditText emailEt, passwordEt;
     private TextView forgotTv, noAccountTv;
-    private Button loginBtn;
+    private ImageView loginBtn;
 
     private FirebaseAuth firebaseAuth;
     private ProgressDialog progressDialog;

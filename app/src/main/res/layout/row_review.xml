@@ -54,7 +54,7 @@
             android:id="@+id/dateTv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textColor="@color/colorGrey02"
+            android:textColor="@color/colorGray02"
             android:layout_below="@+id/profileLl"
             android:layout_toEndOf="@id/ratingBar"
             android:text="dd/MM/yyy"

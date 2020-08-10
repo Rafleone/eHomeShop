@@ -1,10 +1,30 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.drawerlayout.widget.DrawerLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/drawer_activity_user"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".activities.MainUserActivity">
+    tools:context=".activities.MainUserActivity"
+    android:fitsSystemWindows="true">
+
+    <com.google.android.material.navigation.NavigationView
+        android:id="@+id/nav_view"
+        app:headerLayout="@layout/header_menu_user"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:background="@drawable/shape_nav_bar"
+        app:itemTextColor="@color/colorBlack"
+        app:itemIconTint="@color/colorGray01"
+        app:menu="@menu/drawermenuuser"
+        android:layout_gravity="left"
+        android:layout_marginTop="20dp">
+
+    </com.google.android.material.navigation.NavigationView>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
     <!-- ToolBar -->
     <RelativeLayout
@@ -13,30 +33,14 @@
         android:layout_height="wrap_content"
         android:padding="10dp"
         android:background="@drawable/shape_rect01">
-        <ImageButton
-            android:id="@+id/logoutBtn"
+
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/drawe_toolbaar_user"
             android:layout_width="30dp"
             android:layout_height="30dp"
-            android:src="@drawable/ic_logout_white"
             android:layout_alignParentEnd="true"
-            android:background="@null"/>
-
-        <ImageButton
-            android:id="@+id/editProfileBtn"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
-            android:src="@drawable/ic_edit_white"
-            android:layout_toStartOf="@+id/logoutBtn"
-            android:background="@null"/>
-
-        <!--Settings Button-->
-        <ImageButton
-            android:id="@+id/settingsBtn"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
-            android:background="@null"
-            android:src="@drawable/ic_settings_white"
-            android:layout_toStartOf="@+id/editProfileBtn"/>
+            android:theme="@style/AppToolbar"
+            />
 
         <com.blogspot.atifsoftwares.circularimageview.CircularImageView
             android:id="@+id/profileIv"
@@ -143,4 +147,6 @@
 
     </RelativeLayout>
 
-</RelativeLayout>
+    </RelativeLayout>
+
+</androidx.drawerlayout.widget.DrawerLayout>

@@ -1,11 +1,16 @@
 package ehomeshop.com.activities;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+import androidx.core.view.GravityCompat;
+import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
@@ -13,16 +18,19 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.PopupMenu;
 import android.widget.RelativeLayout;
+import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -42,7 +50,7 @@ import ehomeshop.com.models.ModelOrderShop;
 import ehomeshop.com.models.ModelProduct;
 import ehomeshop.com.R;
 
-public class MainSellerActivity extends AppCompatActivity {
+public class MainSellerActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
     private TextView nameTv, shopNameTv, emailTv, tabProductsTv, tabOrdersTv, filteredProductTv, filteredOrdersTv;
     private ImageButton logoutBtn, editProfileBtn, addProductBtn, filterProductBtn, filterOrderBtn, moreBtn;
@@ -50,6 +58,10 @@ public class MainSellerActivity extends AppCompatActivity {
     private RelativeLayout productsRl, ordersRl;
     private EditText searchProductEt;
     private RecyclerView productsRv, ordersRv;
+
+    private DrawerLayout drawerLayout;
+    private ActionBarDrawerToggle mToggle;
+    private NavigationView navigationView;
 
     private FirebaseAuth firebaseAuth;
     private ProgressDialog progressDialog;
@@ -59,6 +71,8 @@ public class MainSellerActivity extends AppCompatActivity {
 
     private ArrayList<ModelOrderShop> orderShopArrayList;
     private AdapterOrderShop adapterOrderShop;
+
+    private Toolbar drawe_toolbaar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -83,17 +97,36 @@ public class MainSellerActivity extends AppCompatActivity {
         filteredOrdersTv = findViewById(R.id.filteredOrdersTv);
         filterOrderBtn = findViewById(R.id.filterOrderBtn);
         ordersRv = findViewById(R.id.ordersRv);
-        moreBtn = findViewById(R.id.moreBtn);
+       // moreBtn = findViewById(R.id.moreBtn);
+
+        drawe_toolbaar = findViewById(R.id.drawe_toolbaar);
+
+        /*Set support action bar*/
+        setSupportActionBar(drawe_toolbaar);
+
+        /*Navigation drawer */
+        drawerLayout = findViewById(R.id.drawer_activity_seller);
+        navigationView = findViewById(R.id.nav_view);
+
+        navigationView.bringToFront();
+        mToggle = new ActionBarDrawerToggle(this, drawerLayout, drawe_toolbaar, R.string.open, R.string.close);
+        drawerLayout.addDrawerListener(mToggle);
+        mToggle.syncState();
+
+        navigationView.setNavigationItemSelectedListener(this);
 
         progressDialog = new ProgressDialog(this);
         progressDialog.setTitle("Please wait...");
         progressDialog.setCanceledOnTouchOutside(false);
         firebaseAuth = FirebaseAuth.getInstance();
+
         checkUser();
+        closeKeyboard();
         loadAllProducts();
         loadAllOrders();
 
         showProductsUI();
+
 
         //search
         searchProductEt.addTextChangedListener(new TextWatcher() {
@@ -118,31 +151,31 @@ public class MainSellerActivity extends AppCompatActivity {
             }
         });
 
-        logoutBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                //make offline
-                //sign out
-                //go to login activity
-                makeMeOffline();
-            }
-        });
+//        logoutBtn.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                //make offline
+//                //sign out
+//                //go to login activity
+//                makeMeOffline();
+//            }
+//        });
 
-        editProfileBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                //open edit profile activity
-                startActivity(new Intent(MainSellerActivity.this, ProfileEditSellerActivity.class));
-            }
-        });
-
-        addProductBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                //open edit add product activity
-                startActivity(new Intent(MainSellerActivity.this, AddProductActivity.class));
-            }
-        });
+//        editProfileBtn.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                //open edit profile activity
+//                startActivity(new Intent(MainSellerActivity.this, ProfileEditSellerActivity.class));
+//            }
+//        });
+//
+//        addProductBtn.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                //open edit add product activity
+//                startActivity(new Intent(MainSellerActivity.this, AddProductActivity.class));
+//            }
+//        });
 
         tabProductsTv.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -214,7 +247,7 @@ public class MainSellerActivity extends AppCompatActivity {
         //popup menu
         final PopupMenu popupMenu = new PopupMenu(MainSellerActivity.this, moreBtn);
         //add menu items to our menu
-        popupMenu.getMenu().add("Settings");
+        popupMenu.getMenu().add("settings");
         popupMenu.getMenu().add("Reviews");
         popupMenu.getMenu().add("Promotion Codes");
 
@@ -222,7 +255,7 @@ public class MainSellerActivity extends AppCompatActivity {
         popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
             @Override
             public boolean onMenuItemClick(MenuItem item) {
-                if (item.getTitle() == "Settings"){
+                if (item.getTitle() == "settings"){
                     //start settings screen
                     startActivity(new Intent(MainSellerActivity.this, SettingsActivity.class));
                 }
@@ -241,14 +274,14 @@ public class MainSellerActivity extends AppCompatActivity {
             }
         });
 
-        //show more options: Settings, Reviews, Promotion Codes
-        moreBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                //show popup menu
-                popupMenu.show();
-            }
-        });
+        //show more options: settings, Reviews, Promotion Codes
+//        moreBtn.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                //show popup menu
+//                popupMenu.show();
+//            }
+//        });
     }
 
     private void loadAllOrders() {
@@ -436,5 +469,64 @@ public class MainSellerActivity extends AppCompatActivity {
 
                     }
                 });
+    }
+
+
+    //navigation bar
+    @Override
+    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+
+        switch (item.getItemId()){
+            case R.id.addProductBtn:
+            startActivity(new Intent(MainSellerActivity.this, AddProductActivity.class));
+            break;
+
+            case R.id.editProfileBtn:
+                startActivity(new Intent(MainSellerActivity.this, ProfileEditSellerActivity.class));
+                break;
+
+            case R.id.reviewsDs:
+                Intent intent = new Intent(MainSellerActivity.this, ShopReviewsActivity.class);
+                intent.putExtra("shopUid", firebaseAuth.getUid());
+                startActivity(intent);
+                break;
+
+            case R.id.promoCodeDs:
+                startActivity(new Intent(MainSellerActivity.this, PromotionCodesActivity.class));
+                break;
+
+            case R.id.settingsDs:
+                startActivity(new Intent(MainSellerActivity.this, SettingsActivity.class));
+                break;
+
+            case R.id.logoutBtn:
+                //make offline
+//                //sign out
+//                //go to login activity
+                   makeMeOffline();
+
+
+        }
+
+        return true;
+    }
+
+    //nav bar on back pressed
+    @Override
+    public void onBackPressed() {
+
+        if (drawerLayout.isDrawerOpen(GravityCompat.START)){
+            drawerLayout.closeDrawer(GravityCompat.START);
+        } else {
+            super.onBackPressed();
+        }
+    }
+
+    private final void closeKeyboard() {
+        View view = this.getCurrentFocus();
+        if (view != null) {
+            InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+            imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+        }
     }
 }

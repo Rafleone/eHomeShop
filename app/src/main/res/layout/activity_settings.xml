@@ -61,7 +61,7 @@
             android:paddingBottom="10dp"
             android:layout_below="@+id/fcmSwitch"
             android:text="Notifications are disabled"
-            android:textColor="@color/colorGrey02"/>
+            android:textColor="@color/colorGray02"/>
 
         <View
             android:layout_width="match_parent"

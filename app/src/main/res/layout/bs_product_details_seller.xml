@@ -124,7 +124,7 @@
                 android:layout_height="wrap_content"
                 android:text="$10"
                 android:layout_marginEnd="10dp"
-                android:textColor="@color/colorGrey02"/>
+                android:textColor="@color/colorGray02"/>
 
             <TextView
                 android:id="@+id/originalPriceTv"
@@ -132,7 +132,7 @@
                 android:layout_height="wrap_content"
                 android:text="$15"
                 android:layout_toEndOf="@+id/discountedPriceTv"
-                android:textColor="@color/colorGrey02"/>
+                android:textColor="@color/colorGray02"/>
 
         </RelativeLayout>
     </LinearLayout>
