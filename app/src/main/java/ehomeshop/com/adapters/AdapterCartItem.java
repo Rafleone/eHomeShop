@@ -4,6 +4,7 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -143,7 +144,8 @@ public class AdapterCartItem extends RecyclerView.Adapter<AdapterCartItem.Holder
     class HolderCartItem extends RecyclerView.ViewHolder{
 
         //ui views of row_cart_item.xml
-        private TextView itemTitleTv, itemPriceTv, itemPriceEachTv, itemQuantityTv, itemRemoveTv;
+        private TextView itemTitleTv, itemPriceTv, itemPriceEachTv, itemQuantityTv;
+        private ImageButton itemRemoveTv;
 
         public HolderCartItem(@NonNull View itemView) {
             super(itemView);

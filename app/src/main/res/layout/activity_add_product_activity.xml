@@ -49,7 +49,7 @@
             android:layout_height="100dp"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="20dp"
-            android:src="@drawable/ic_add_shopping_primary"
+            android:src="@drawable/no_photo"
             app:c_border="true"
             app:c_border_color="@color/colorPrimaryDark"
             app:c_border_width="1dp"/>
@@ -157,14 +157,17 @@
 
         <Button
             android:id="@+id/addProductBtn"
+            android:layout_width="150dp"
+            android:layout_height="40dp"
             android:text="Add Product"
-            android:layout_below="@id/discountedNoteEt"
             android:layout_centerHorizontal="true"
-            style="@style/Widget.AppCompat.Button.Colored"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_below="@id/discountedNoteEt"
             android:minWidth="150dp"
-            android:layout_marginTop="5dp"/>
+            android:layout_marginTop="20dp"
+            android:background="@drawable/btn_bg"
+            android:textSize="12sp"
+            android:textStyle="bold"
+            android:textColor="@color/colorWhite"/>
         </RelativeLayout>
     </ScrollView>
 </RelativeLayout>

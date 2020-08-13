@@ -122,13 +122,16 @@
 
     <Button
         android:id="@+id/addBtn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/expireDateTv"
+        android:layout_width="150dp"
+        android:layout_height="40dp"
+        android:background="@drawable/btn_bg"
+        android:textSize="12sp"
+        android:textStyle="bold"
+        android:textColor="@color/colorWhite"
+        android:layout_marginTop="20dp"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="5dp"
+        android:layout_below="@id/expireDateTv"
         android:minWidth="150dp"
-        android:text="Add"
-        style="@style/Widget.AppCompat.Button.Colored"/>qs
+        android:text="Add" />
 
 </RelativeLayout>

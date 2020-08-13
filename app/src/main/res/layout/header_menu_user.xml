@@ -23,7 +23,7 @@
             />
 
         <com.blogspot.atifsoftwares.circularimageview.CircularImageView
-            android:id="@+id/profileIv"
+            android:id="@+id/profileHeaderIv"
             android:layout_width="70dp"
             android:layout_height="70dp"
             android:layout_marginEnd="10dp"
@@ -32,32 +32,32 @@
             android:src="@drawable/ic_store_grey"/>
 
         <TextView
-            android:id="@+id/nameTv"
+            android:id="@+id/nameHeaderTv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Name"
-            android:layout_toEndOf="@+id/profileIv"
+            android:layout_toEndOf="@+id/profileHeaderIv"
             android:textStyle="bold"
             android:textSize="20sp"
             android:textColor="@color/colorWhite"/>
 
         <TextView
-            android:id="@+id/shopNameTv"
+            android:id="@+id/emailHeaderTv"
             android:text="Shop Name"
             android:textColor="@color/colorWhite"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_toEndOf="@+id/profileIv"
-            android:layout_below="@id/nameTv"/>
+            android:layout_toEndOf="@+id/profileHeaderIv"
+            android:layout_below="@id/nameHeaderTv"/>
 
         <TextView
-            android:id="@+id/emailTv"
+            android:id="@+id/phoneHeaderTv"
             android:text="Email"
             android:textColor="@color/colorWhite"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_toEndOf="@+id/profileIv"
-            android:layout_below="@id/shopNameTv"/>
+            android:layout_toEndOf="@+id/profileHeaderIv"
+            android:layout_below="@id/emailHeaderTv"/>
 
         <!-- Tabs: Products, Orders -->
     </RelativeLayout>

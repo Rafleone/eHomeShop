@@ -88,8 +88,8 @@
                 android:layout_below="@+id/deliveryFeeTv"
                 android:layout_alignParentEnd="true"
                 android:numStars="5"
-                android:progressBackgroundTint="@color/colorGray00"
-                android:progressTint="@color/colorWhite"/>
+                android:progressBackgroundTint="@color/colorWhite"
+                android:progressTint="@color/colorAccent"/>
 
             <TextView
                 android:id="@+id/addressTv"

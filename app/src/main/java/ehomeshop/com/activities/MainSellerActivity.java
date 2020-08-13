@@ -120,7 +120,9 @@ public class MainSellerActivity extends AppCompatActivity implements NavigationV
         progressDialog.setCanceledOnTouchOutside(false);
         firebaseAuth = FirebaseAuth.getInstance();
 
+
         checkUser();
+        loadMyInfoNavBar();
         closeKeyboard();
         loadAllProducts();
         loadAllOrders();
@@ -453,14 +455,14 @@ public class MainSellerActivity extends AppCompatActivity implements NavigationV
                             String profileImage = "" + ds.child("profileImage").getValue();
 
                             //set data to ui
-                            nameTv.setText(name);
+                            //nameTv.setText(name);
                             shopNameTv.setText(shopName);
-                            emailTv.setText(email);
-                            try {
-                                Picasso.get().load(profileImage).placeholder(R.drawable.ic_store_grey).into(profileIv);
-                            } catch (Exception e){
-                                profileIv.setImageResource(R.drawable.ic_store_grey);
-                            }
+                            //emailTv.setText(email);
+//                            try {
+//                                Picasso.get().load(profileImage).placeholder(R.drawable.ic_store_grey).into(profileIv);
+//                            } catch (Exception e){
+//                                profileIv.setImageResource(R.drawable.ic_store_grey);
+//                            }
                         }
                     }
 
@@ -471,11 +473,48 @@ public class MainSellerActivity extends AppCompatActivity implements NavigationV
                 });
     }
 
+    private void loadMyInfoNavBar(){
+        DatabaseReference ref = FirebaseDatabase.getInstance().getReference("Users");
+        ref.orderByChild("uid").equalTo(firebaseAuth.getUid())
+                .addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                        for (DataSnapshot ds: snapshot.getChildren()){
+                            //get data from db
+                            String name = "" + ds.child("name").getValue();
+                            String accountType = "" + ds.child("accountType").getValue();
+                            String email = "" + ds.child("email").getValue();
+                            String shopName = "" + ds.child("shopName").getValue();
+                            String profileImage = "" + ds.child("profileImage").getValue();
+
+                            //set data to ui
+                            View headerView = navigationView.getHeaderView(0);
+                            TextView navName = (TextView) headerView.findViewById(R.id.nameHeaderTv);
+                            navName.setText(name);
+                            TextView navShopName = headerView.findViewById(R.id.shopNameHeaderTv);
+                            navShopName.setText(shopName);
+                            TextView navEmail = headerView.findViewById(R.id.emailHeaderTv);
+                            navEmail.setText(email);
+                            ImageView navProfileImage = headerView.findViewById(R.id.profileHeaderIv);
+                            try {
+                                Picasso.get().load(profileImage).placeholder(R.drawable.ic_store_grey).into(navProfileImage);
+                            } catch (Exception e){
+                                navProfileImage.setImageResource(R.drawable.ic_store_grey);
+                            }
+                        }
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
+
+                    }
+                });
+    }
+
 
     //navigation bar
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-
         switch (item.getItemId()){
             case R.id.addProductBtn:
             startActivity(new Intent(MainSellerActivity.this, AddProductActivity.class));
@@ -504,8 +543,7 @@ public class MainSellerActivity extends AppCompatActivity implements NavigationV
 //                //sign out
 //                //go to login activity
                    makeMeOffline();
-
-
+                   break;
         }
 
         return true;

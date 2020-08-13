@@ -58,14 +58,15 @@
         android:background="@color/colorPrimary"
         android:adjustViewBounds="true"
         android:padding="5dp"
-        android:src="@drawable/ic_add_shopping_white"/>
+        android:src="@drawable/no_photo"/>
 
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/productIconIv"
         android:layout_marginTop="10dp"
-        android:orientation="vertical"
+        android:layout_marginRight="20dp"
+        android:layout_marginLeft="20dp"
         android:padding="10dp">
 
         <TextView
@@ -77,7 +78,9 @@
             android:textSize="10sp"
             android:text="10% OFF"
             android:paddingEnd="5dp"
-            android:textColor="@color/colorGreen"/>
+            android:textColor="@color/colorGreen"
+            android:layout_alignParentEnd="true"
+            android:layout_marginRight="30dp"/>
 
         <TextView
             android:id="@+id/titleTv"
@@ -95,7 +98,8 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="5dp"
             android:text="The Product Description"
-            android:textColor="@color/colorBlack"/>
+            android:textColor="@color/colorBlack"
+            android:layout_below="@id/titleTv"/>
 
         <TextView
             android:id="@+id/categoryTv"
@@ -103,7 +107,8 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="5dp"
             android:text="Category"
-            android:textColor="@color/colorBlack"/>
+            android:textColor="@color/colorBlack"
+            android:layout_below="@id/descriptionTv"/>
 
         <TextView
             android:id="@+id/quantityTv"
@@ -111,12 +116,14 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="5dp"
             android:text="Quantity"
-            android:textColor="@color/colorBlack"/>
+            android:textColor="@color/colorBlack"
+            android:layout_below="@id/categoryTv"/>
 
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="5dp">
+            android:layout_marginTop="15dp"
+            android:layout_below="@id/quantityTv">
 
             <TextView
                 android:id="@+id/discountedPriceTv"
@@ -135,5 +142,5 @@
                 android:textColor="@color/colorGray02"/>
 
         </RelativeLayout>
-    </LinearLayout>
+    </RelativeLayout>
 </RelativeLayout>

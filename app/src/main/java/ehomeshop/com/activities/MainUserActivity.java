@@ -102,6 +102,8 @@ public class MainUserActivity extends AppCompatActivity implements NavigationVie
         progressDialog.setTitle("Please wait...");
         progressDialog.setCanceledOnTouchOutside(false);
         firebaseAuth = FirebaseAuth.getInstance();
+
+        loadMyInfoNavBar();
         checkUser();
 
         //at start shops ui
@@ -245,6 +247,49 @@ public class MainUserActivity extends AppCompatActivity implements NavigationVie
 
                     @Override
                     public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                    }
+                });
+    }
+
+    private void loadMyInfoNavBar(){
+        DatabaseReference ref = FirebaseDatabase.getInstance().getReference("Users");
+        ref.orderByChild("uid").equalTo(firebaseAuth.getUid())
+                .addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                        for (DataSnapshot ds: snapshot.getChildren()){
+                            //get user data
+                            String name = "" + ds.child("name").getValue();
+                            String email = "" + ds.child("email").getValue();
+                            String phone = "" + ds.child("phone").getValue();
+                            String profileImage = "" + ds.child("profileImage").getValue();
+                            String accountType = "" + ds.child("accountType").getValue();
+                            String city = "" + ds.child("city").getValue();
+
+                            //set data to ui
+                            View headerView = navigationView.getHeaderView(0);
+                            TextView navName = (TextView) headerView.findViewById(R.id.nameHeaderTv);
+                            navName.setText(name);
+                            TextView navEmail = headerView.findViewById(R.id.emailHeaderTv);
+                            navEmail.setText(email);
+                            TextView navPhone = headerView.findViewById(R.id.phoneHeaderTv);
+                            navPhone.setText(phone);
+                            ImageView navProfileImage = headerView.findViewById(R.id.profileHeaderIv);
+                            try {
+                                Picasso.get().load(profileImage).placeholder(R.drawable.ic_store_grey).into(navProfileImage);
+                            } catch (Exception e){
+                                navProfileImage.setImageResource(R.drawable.ic_store_grey);
+                            }
+
+                            //load only those shops that are in the city of user
+                            loadShops(city);
+                            loadOrders();
+                        }
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
 
                     }
                 });
