@@ -135,5 +135,5 @@ public class SettingsActivity extends AppCompatActivity {
                 });
     }
 }
-//we will work with topic based firebase messaging, for a user to receve topic based message/notification have to subscribe to that topic
+//we will work with topic based firebase messaging, for a user to receve topic based list_item_message/notification have to subscribe to that topic
 //requirements: DCM Server key, im copying my, you need to copy yours, if there is no key you can click "Add server key" button to create new

@@ -534,6 +534,10 @@ public class MainSellerActivity extends AppCompatActivity implements NavigationV
                 startActivity(new Intent(MainSellerActivity.this, PromotionCodesActivity.class));
                 break;
 
+            case R.id.chatSeller:
+                startActivity(new Intent(MainSellerActivity.this, ChatActivity.class));
+                break;
+
             case R.id.settingsDs:
                 startActivity(new Intent(MainSellerActivity.this, SettingsActivity.class));
                 break;

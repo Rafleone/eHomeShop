@@ -393,6 +393,10 @@ public class MainUserActivity extends AppCompatActivity implements NavigationVie
                 startActivity(new Intent(MainUserActivity.this, SettingsActivity.class));
                 break;
 
+            case R.id.chatSeller:
+                startActivity(new Intent(MainUserActivity.this, ChatActivity.class));
+                break;
+
             case R.id.logoutBtn:
                 makeMeOffline();
                 break;
