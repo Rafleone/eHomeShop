@@ -24,6 +24,7 @@ import java.util.List;
 
 import ehomeshop.com.R;
 import ehomeshop.com.adapters.AdapterUsersChat;
+import ehomeshop.com.models.ModelShop;
 import ehomeshop.com.models.ModelUsersChat;
 
 /**
@@ -102,6 +103,7 @@ public class ChatUsersFragment extends Fragment {
     private void getAllUsers() {
         //get current user
         final FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
+        final String uid = firebaseUser.getUid();
 
         //get path of database named "Users" containing users info
         DatabaseReference ref = FirebaseDatabase.getInstance().getReference("Users");
@@ -115,7 +117,7 @@ public class ChatUsersFragment extends Fragment {
                     ModelUsersChat modelUsersChat = ds.getValue(ModelUsersChat.class);
 
                     //get all users except currently signed in user
-                    if (!modelUsersChat.equals(firebaseUser.getUid())){
+                    if (!modelUsersChat.equals(uid)){
                         usersList.add(modelUsersChat);
                     }
 

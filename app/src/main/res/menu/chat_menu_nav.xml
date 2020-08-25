@@ -5,7 +5,7 @@
         android:id="@+id/nav_users"
         android:enabled="true"
         android:icon="@drawable/ic_users_blac"
-        android:title="Users"/>
+        android:title="Sellers"/>
 
     <item
         android:id="@+id/nav_chat"

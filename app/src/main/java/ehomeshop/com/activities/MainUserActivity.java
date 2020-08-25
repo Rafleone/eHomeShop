@@ -394,7 +394,7 @@ public class MainUserActivity extends AppCompatActivity implements NavigationVie
                 break;
 
             case R.id.chatSeller:
-                startActivity(new Intent(MainUserActivity.this, ChatActivity.class));
+                startActivity(new Intent(MainUserActivity.this, ChatDashboardActivity.class));
                 break;
 
             case R.id.logoutBtn:

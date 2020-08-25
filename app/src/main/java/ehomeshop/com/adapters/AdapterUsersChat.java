@@ -65,7 +65,7 @@ public class AdapterUsersChat extends RecyclerView.Adapter<AdapterUsersChat.MyHo
             public void onClick(View v) {
                 //Toast.makeText(context, ""+ userEmail, Toast.LENGTH_SHORT).show();
 
-                // * Click user from users chat lust to start cahtting/messaging
+                // * Click user from users chat lust to start chatting/messaging
                 // * Start Activity by putting UID of receiver
                 // * We will use that UID to identify the user we are gonna chat
 

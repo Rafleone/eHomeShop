@@ -25,7 +25,7 @@ public class ChatDashboardActivity extends AppCompatActivity {
         setContentView(R.layout.activity_chat_dashboard);
 
         actionBar = getSupportActionBar();
-        actionBar.setTitle("Chat");
+        actionBar.setTitle("Chat With Seller");
 
         firebaseAuth = FirebaseAuth.getInstance();
 
