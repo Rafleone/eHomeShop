@@ -24,7 +24,6 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.PopupMenu;
 import android.widget.RelativeLayout;
-import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -535,7 +534,7 @@ public class MainSellerActivity extends AppCompatActivity implements NavigationV
                 break;
 
             case R.id.chatSeller:
-                startActivity(new Intent(MainSellerActivity.this, ChatActivity.class));
+                startActivity(new Intent(MainSellerActivity.this, ChatDashboardActivity.class));
                 break;
 
             case R.id.settingsDs:

@@ -1,31 +1,24 @@
 package ehomeshop.com.activities;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.text.format.DateFormat;
-import android.util.Log;
+import android.text.TextUtils;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
-import android.widget.ListView;
-import android.widget.RelativeLayout;
+import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
-import com.firebase.ui.auth.AuthUI;
-import com.firebase.ui.auth.data.model.User;
-import com.firebase.ui.database.FirebaseListAdapter;
-import com.firebase.ui.database.FirebaseListOptions;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.gms.tasks.Task;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.android.material.snackbar.Snackbar;
+
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -34,159 +27,160 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
+import com.squareup.picasso.Picasso;
 
-import java.util.Calendar;
 import java.util.HashMap;
 
 import ehomeshop.com.R;
-import ehomeshop.com.adapters.AdapterOrderShop;
-import ehomeshop.com.models.ModelChat;
 
 public class ChatActivity extends AppCompatActivity {
 
-    private String textMessage;
-    private String userMessage;
-    private String timeMessage;
-
-    private TextView message_user, message_time, message_text;
-    private FloatingActionButton sendBtn;
-    private RelativeLayout activity_chat;
-    private EditText messageField;
-
-    private static final int SIGN_IN_REQUEST_CODE = 1;
-
-    private FirebaseListAdapter<ModelChat> adapter;
-
-    private FirebaseAuth firebaseAuth;
+    //views from xml
+    Toolbar toolbar;
+    RecyclerView recyclerView;
+    ImageView profileIv;
+    TextView nameTv, userStatusTv;
+    EditText messageEt;
+    ImageButton sendBtn;
 
 
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
+    //firebase auth
+    FirebaseAuth firebaseAuth;
 
-        if (requestCode == SIGN_IN_REQUEST_CODE){
-            if (resultCode == RESULT_OK){
-                Snackbar.make(activity_chat, "Jus PRisijunges", Snackbar.LENGTH_LONG).show();
+    FirebaseDatabase firebaseDatabase;
+    DatabaseReference usersDbRef;
 
-                displayAllMessages();
-            } else {
-                Snackbar.make(activity_chat, "Jus ne PRisijunges", Snackbar.LENGTH_LONG).show();
-                finish();
-            }
-        }
-    }
+    String hisUid;
+    String myUid;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate (Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chat);
 
+        //init views
+        Toolbar toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        toolbar.setTitle("");
+        recyclerView = findViewById(R.id.chat_recyclerView);
+        profileIv = findViewById(R.id.profileIv);
+        nameTv = findViewById(R.id.nameTv);
+        userStatusTv = findViewById(R.id.userStatusTv);
+        messageEt = findViewById(R.id.messageEt);
+        sendBtn = findViewById(R.id.sendBtn);
+
+        Intent intent = getIntent();
+        hisUid = intent.getStringExtra("hisUid");
+
         firebaseAuth = FirebaseAuth.getInstance();
 
-        message_user = findViewById(R.id.message_user);
-        message_time = findViewById(R.id.message_time);
-        message_text = findViewById(R.id.message_text);
-        messageField = findViewById(R.id.messageField);
-        activity_chat = findViewById(R.id.activity_chat);
-        sendBtn = findViewById(R.id.btnSend);
-        sendBtn.setOnClickListener(new View.OnClickListener() {
+        firebaseDatabase = FirebaseDatabase.getInstance();
+        usersDbRef = firebaseDatabase.getReference("Users");
+
+        //Search user to get that users info
+        Query userQuery = usersDbRef.orderByChild("uid").equalTo(hisUid);
+
+        //get user picture and name
+        userQuery.addValueEventListener(new ValueEventListener() {
             @Override
-            public void onClick(View v) {
-                EditText textField = findViewById(R.id.messageField);
-                if (textField.getText().toString() == ""){
-                    return;
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                //check until required info is received
+                for (DataSnapshot ds: snapshot.getChildren()){
+                    //get data
+                    String name = ""+ ds.child("name").getValue();
+                    String profileImage = "" +ds.child("profileImage").getValue();
+
+                    //set data
+                    nameTv.setText(name);
+                    try {
+                        //image received, set to imageview in toolbar
+                        Picasso.get().load(profileImage).placeholder(R.drawable.ic_face_white).into(profileIv);
+
+                    } catch (Exception e){
+                        //there is exetion getting picture, set default picture
+                        Picasso.get().load(R.drawable.ic_face_white).into(profileIv);
+                    }
                 }
+            }
 
-                String timestamp = "" + System.currentTimeMillis();
-                textMessage = messageField.getText().toString().trim();
-                timeMessage = timestamp;
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
 
-                HashMap<String, Object> hashMap = new HashMap<>();
-                hashMap.put("messageText", textMessage);
-                hashMap.put("messageTime", timestamp);
-                hashMap.put("messageUser", FirebaseAuth.getInstance().getCurrentUser().getEmail());
-
-                DatabaseReference ref = FirebaseDatabase.getInstance().getReference("Users");
-                ref.child(firebaseAuth.getUid()).child("Chat").child(timestamp).setValue(hashMap)
-                        .addOnSuccessListener(new OnSuccessListener<Void>() {
-                            @Override
-                            public void onSuccess(Void aVoid) {
-
-                            }
-                        })
-                        .addOnFailureListener(new OnFailureListener() {
-                            @Override
-                            public void onFailure(@NonNull Exception e) {
-
-                            }
-                        });
-
-                //veikiantis
-//                FirebaseDatabase.getInstance().getReference("Users")
-//                        .child("Chat")
-//                        .push()
-//                        .setValue(new ModelChat
-//                                (FirebaseAuth.getInstance().getCurrentUser().getEmail(),
-//                                        textField.getText().toString()
-//                                )
-//                        );
-//                textField.setText("");
             }
         });
 
-        if (FirebaseAuth.getInstance() == null){
-            startActivityForResult(AuthUI.getInstance().createSignInIntentBuilder().build(), SIGN_IN_REQUEST_CODE);
-        } else {
-            Snackbar.make(activity_chat, "Jus Prisijunges", Snackbar.LENGTH_LONG).show();
-
-            displayAllMessages();
-        }
-
-    }
-
-    private void displayAllMessages() {
-        ListView listOfMessages = findViewById(R.id.list_of_messages);
-
-
-        DatabaseReference ref = FirebaseDatabase.getInstance().getReference("Users");
-        ref.child(firebaseAuth.getUid()).child("Chat");
-
-
-
-        Query query = FirebaseDatabase.getInstance().getReference("Users").child("Chat");
-
-        FirebaseListOptions<ModelChat> options =
-                new FirebaseListOptions.Builder<ModelChat>()
-                        .setQuery(ref, ModelChat.class)
-                        .setLayout(R.layout.list_item_message)
-                        .build();
-        adapter = new FirebaseListAdapter<ModelChat>(options) {
+        //click button to send message
+        sendBtn.setOnClickListener(new View.OnClickListener() {
             @Override
-            protected void populateView(@NonNull View v, @NonNull ModelChat model, int position) {
-                TextView mess_user, mess_time, mess_text;
-                mess_user = v.findViewById(R.id.message_user);
-                mess_time = v.findViewById(R.id.message_time);
-                mess_text = v.findViewById(R.id.message_text);
-
-                mess_user.setText(model.getMessageUser());
-                mess_text.setText(model.getMessageText());
-                mess_time.setText(DateFormat.format("dd-mm-YYYY HH:mm:ss", model.getMessageTime()));
-
-
+            public void onClick(View v) {
+                //get text from edit text
+                String message = messageEt.getText().toString().trim();
+                //check if text is empty or not
+                if (TextUtils.isEmpty(message)){
+                    //text empty
+                    Toast.makeText(ChatActivity.this, "Cannot send the empty message...", Toast.LENGTH_SHORT).show();
+                } else {
+                    //text not empty
+                    sendMessage(message);
+                }
             }
-        };
-        listOfMessages.setAdapter(adapter);
+        });
+
     }
+
+    private void sendMessage(String message) {
+
+
+
+        DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("Users");
+        databaseReference.child(firebaseAuth.getUid());
+
+        HashMap<String, Object> hashMap = new HashMap<>();
+        hashMap.put("sender", myUid);
+        hashMap.put("receiver", hisUid);
+        hashMap.put("message", message);
+        databaseReference.child("Chats").push().setValue(hashMap);
+
+        //reset editText after sending message
+        messageEt.setText("");
+    }
+
+    private void checkUserStatus(){
+        //get current user
+        FirebaseUser user = firebaseAuth.getCurrentUser();
+        if (user != null){
+            //user is signed in stay here
+            //set email of logged in user
+            //mProfileTv.settext(user.getEmail()));
+            myUid = user.getUid(); // currently signed in users uid
+        } else {
+            //user not signed in, go to main activity
+            startActivity(new Intent(this, LoginActivity.class));
+            finish();
+        }
+    }
+
     @Override
     protected void onStart() {
+        checkUserStatus();
         super.onStart();
-        adapter.startListening();
     }
 
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.chat_menu, menu);
+
+        return super.onCreateOptionsMenu(menu);
+    }
 
     @Override
-    protected void onStop() {
-        super.onStop();
-        adapter.stopListening();
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+
+        int id = item.getItemId();
+        if (id == R.id.logoutBtn){
+            firebaseAuth.signOut();
+            checkUserStatus();
+        }
+        return super.onOptionsItemSelected(item);
     }
 }
