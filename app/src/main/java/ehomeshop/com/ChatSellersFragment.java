@@ -1,4 +1,4 @@
-package ehomeshop.com.activities;
+package ehomeshop.com;
 
 import android.os.Bundle;
 
@@ -17,22 +17,21 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import ehomeshop.com.R;
 import ehomeshop.com.adapters.AdapterUsersChat;
-import ehomeshop.com.models.ModelShop;
 import ehomeshop.com.models.ModelUsersChat;
 
 /**
  * A simple {@link Fragment} subclass.
- * Use the {@link ChatUsersFragment#newInstance} factory method to
+ * Use the {@link ChatSellersFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class ChatUsersFragment extends Fragment {
+public class ChatSellersFragment extends Fragment {
 
     RecyclerView recyclerView;
     AdapterUsersChat adapterUsersChat;
@@ -47,8 +46,9 @@ public class ChatUsersFragment extends Fragment {
     private String mParam1;
     private String mParam2;
 
-    public ChatUsersFragment() {
+    public ChatSellersFragment() {
         // Required empty public constructor
+
     }
 
     /**
@@ -57,11 +57,11 @@ public class ChatUsersFragment extends Fragment {
      *
      * @param param1 Parameter 1.
      * @param param2 Parameter 2.
-     * @return A new instance of fragment UsersFragment.
+     * @return A new instance of fragment ChatSellersFragment.
      */
     // TODO: Rename and change types and number of parameters
-    public static ChatUsersFragment newInstance(String param1, String param2) {
-        ChatUsersFragment fragment = new ChatUsersFragment();
+    public static ChatSellersFragment newInstance(String param1, String param2) {
+        ChatSellersFragment fragment = new ChatSellersFragment();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
@@ -82,7 +82,8 @@ public class ChatUsersFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_users, container, false);
+        // Inflate the layout for this fragment
+        View view = inflater.inflate(R.layout.fragment_chat_sellers, container, false);
 
         //init recyclerview
         recyclerView = view.findViewById(R.id.users_chat_recyclerView);
@@ -106,18 +107,25 @@ public class ChatUsersFragment extends Fragment {
         final String uid = firebaseUser.getUid();
 
         //get path of database named "Users" containing users info
-        DatabaseReference ref = FirebaseDatabase.getInstance().getReference("Users");
+        final DatabaseReference ref = FirebaseDatabase.getInstance().getReference("Users");
 
-        //get all data from path
-        ref.addValueEventListener(new ValueEventListener() {
+        //get and show All Sellers
+        Query getSellers = ref.orderByChild("accountType").equalTo("Seller");
+
+        //get and show All Users AccountType Users , show only Users
+        Query getUsers = ref.orderByChild("accountType").equalTo("User");
+
+
+        getSellers.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 usersList.clear();
-                for (DataSnapshot ds: snapshot.getChildren()){
+
+                for (DataSnapshot ds : snapshot.getChildren()) {
                     ModelUsersChat modelUsersChat = ds.getValue(ModelUsersChat.class);
 
-                    //get all users except currently signed in user
-                    if (!modelUsersChat.equals(uid)){
+                    //get all users except currently signed in
+                    if (modelUsersChat.getUid() != null && !modelUsersChat.getUid().equals(firebaseUser.getUid())) {
                         usersList.add(modelUsersChat);
                     }
 

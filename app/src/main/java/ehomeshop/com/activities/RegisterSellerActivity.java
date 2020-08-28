@@ -252,8 +252,10 @@ public class RegisterSellerActivity extends AppCompatActivity implements Locatio
             hashMap.put("longitude", "" + longitude);
             hashMap.put("timestamp", "" + timestamp);
             hashMap.put("accountType", "Seller");
+            hashMap.put("onlineStatus", "online");
             hashMap.put("online", "true");
             hashMap.put("shopOpen", "true");
+            hashMap.put("typingTo", "noOne");
             hashMap.put("profileImage", "");
 
             //save to db
@@ -311,8 +313,10 @@ public class RegisterSellerActivity extends AppCompatActivity implements Locatio
                                 hashMap.put("longitude", "" + longitude);
                                 hashMap.put("timestamp", "" + timestamp);
                                 hashMap.put("accountType", "Seller");
+                                hashMap.put("onlineStatus", "online");
                                 hashMap.put("online", "true");
                                 hashMap.put("shopOpen", "true");
+                                hashMap.put("typingTo", "noOne");
                                 hashMap.put("profileImage", "" + downloadImageUri); // url of uploaded image
 
                                 //save to db

@@ -3,7 +3,10 @@ package ehomeshop.com.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.Editable;
 import android.text.TextUtils;
+import android.text.TextWatcher;
+import android.text.format.DateFormat;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -33,8 +36,10 @@ import com.google.firebase.database.ValueEventListener;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 
 import ehomeshop.com.R;
 import ehomeshop.com.adapters.AdapterChat;
@@ -113,6 +118,26 @@ public class ChatActivity extends AppCompatActivity {
                     //get data
                     String name = ""+ ds.child("name").getValue();
                     hisImage = "" +ds.child("profileImage").getValue();
+                    String typingStatus = "" + ds.child("typingTo").getValue();
+
+                    //check typing statys
+                    if (typingStatus.equals(myUid)){
+                        userStatusTv.setText("Typing...");
+                    }
+                    else {
+                        //get value of online Status
+                        String onlineStatus = ""+ ds.child("onlineStatus").getValue();
+                        if (onlineStatus.equals("online")){
+                            userStatusTv.setText(onlineStatus);
+                        } else {
+                            //Convert timeStamp to proper time date
+                            //convert time stamp to dd/mm/yyyy hh:mm am/pm
+                            Calendar calendar = Calendar.getInstance(Locale.ENGLISH);
+                            calendar.setTimeInMillis(Long.parseLong(onlineStatus));
+                            String dateTime = DateFormat.format("dd/MM/yyyy hh:mm aa", calendar).toString();
+                            userStatusTv.setText("Last seen at: " + dateTime);
+                        }
+                    }
 
                     //set data
                     nameTv.setText(name);
@@ -147,6 +172,29 @@ public class ChatActivity extends AppCompatActivity {
                     //text not empty
                     sendMessage(message);
                 }
+            }
+        });
+
+        //check Edit text change listener
+        messageEt.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                if (s.toString().trim().length() == 0){
+                    checkTypingStatus("noOne");
+                }
+                else {
+                    checkTypingStatus(hisUid); // uid of receiver
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
             }
         });
 
@@ -245,21 +293,56 @@ public class ChatActivity extends AppCompatActivity {
         }
     }
 
+    private void checkOnlineStatus(String status){
+        DatabaseReference ref = FirebaseDatabase.getInstance().getReference("Users").child(myUid);
+        HashMap<String, Object> hashMap = new HashMap<>();
+        hashMap.put("onlineStatus", status);
+
+        //update value of onlineStatus of Current User
+        ref.updateChildren(hashMap);
+    }
+
+    private void checkTypingStatus(String typing){
+        DatabaseReference ref = FirebaseDatabase.getInstance().getReference("Users").child(myUid);
+        HashMap<String, Object> hashMap = new HashMap<>();
+        hashMap.put("typingTo", typing);
+
+        //update value of onlineStatus of Current User
+        ref.updateChildren(hashMap);
+    }
+
     @Override
     protected void onStart() {
         checkUserStatus();
+        //set online
+        checkOnlineStatus("online");
         super.onStart();
     }
 
     @Override
     protected void onPause() {
         super.onPause();
+
+        //get timestamp
+        String timestamp = String.valueOf(System.currentTimeMillis());
+
+        //set offline with last seen time stamp
+        checkOnlineStatus(timestamp);
+
+        checkTypingStatus("noOne");
         userRefForSeen.removeEventListener(seenListener);
     }
 
     @Override
+    protected void onResume() {
+        //set online
+        checkOnlineStatus("online");
+        super.onResume();
+    }
+
+    @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.chat_menu, menu);
+        getMenuInflater().inflate(R.menu.chat_menu_nav, menu);
 
         return super.onCreateOptionsMenu(menu);
     }
