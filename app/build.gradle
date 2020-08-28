@@ -27,16 +27,11 @@ android {
 dependencies {
     implementation fileTree(dir: "libs", include: ["*.jar"])
     implementation 'androidx.appcompat:appcompat:1.2.0'
-    implementation 'androidx.constraintlayout:constraintlayout:1.1.3'
+    implementation 'androidx.constraintlayout:constraintlayout:2.0.0'
 
     implementation 'com.google.android.material:material:1.2.0'
-    implementation 'androidx.appcompat:appcompat:1.0.0-beta01'
+    implementation 'androidx.appcompat:appcompat:1.3.0-alpha02'
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
-// Architecture Components
-    def nav_version = "1.0.0-alpha02"
-    implementation "android.arch.navigation:navigation-fragment-ktx:$nav_version"
-// use -ktx for Kotlin
-    implementation "android.arch.navigation:navigation-ui-ktx:$nav_version"
 
     implementation 'com.google.firebase:firebase-analytics:17.5.0'
     implementation 'com.google.firebase:firebase-auth:19.3.2'
@@ -51,7 +46,8 @@ dependencies {
 
     implementation 'com.github.mohammadatif:CircularImageView:1.0.0'
     implementation 'com.theartofdev.edmodo:android-image-cropper:2.8.+'
-    //image loading from firebase
+
+    //image loading from firebase Picasso
     implementation 'com.squareup.picasso:picasso:2.71828'
 
     //cardview

@@ -359,7 +359,7 @@ public class MainSellerActivity extends AppCompatActivity implements NavigationV
                     @Override
                     public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                         //before getting reset list
-                        productList.clear();;
+                        productList.clear();
                         for (DataSnapshot ds: dataSnapshot.getChildren()){
                             ModelProduct modelProduct = ds.getValue(ModelProduct.class);
                             productList.add(modelProduct);
